@@ -1,6 +1,6 @@
 # Coupled Multiphysics Process Simulation — Reference
 
-**Status:** Research-derived reference. Governing equations and named models verified against ≥2 authoritative sources (Ansys, COMSOL, Abaqus, Altair AcuSolve, Simufact, peer-reviewed PMC/Frontiers articles, vendor docs). Numbers and model names tagged `[VERIFIED]` where cross-checked; `[SINGLE-SOURCE]` where only one source found; `[DOCS-ONLY]` where based on vendor documentation without independent peer-review cross-check.
+**Status:** Research-derived reference. Governing equations and named models verified against ≥2 authoritative sources (Ansys, COMSOL, Abaqus, Altair AcuSolve, Simufact, peer-reviewed PMC/Frontiers articles, vendor docs). Numbers and model names tagged `[AUTHOR-VERIFIED]` where cross-checked; `[SINGLE-SOURCE]` where only one source found; `[DOCS-ONLY]` where based on vendor documentation without independent peer-review cross-check.
 
 **Scope:** This file covers process-coupled physics beyond the core multiphysics sections of the skill router: battery electrochemistry + thermal + runaway, PEM fuel cells, additive manufacturing (AM) process simulation, welding simulation, composite curing, injection molding, and casting / metal forming. General coupling strategies and field-mapping methods are covered in the final section.
 
@@ -693,4 +693,4 @@ Coupling physics that live on different meshes (e.g., fine thermal mesh → coar
 
 ---
 
-*Research date: 2026-06-28. Cross-verified against ≥2 sources for all named models and equations marked [VERIFIED]. Equations reproduced from primary literature; validate against specific solver documentation before implementing.*
+*Research date: 2026-06-28. Cross-verified against ≥2 sources for all named models and equations marked [AUTHOR-VERIFIED]. Equations reproduced from primary literature; validate against specific solver documentation before implementing.*

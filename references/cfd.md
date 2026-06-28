@@ -211,8 +211,9 @@ mesh and model the first cell decides whether wall shear/heat transfer is right.
   where the wall is the QoI. Costs many fine near-wall cells. [S13][S9]
 - **Wall-function (high-Re / HRN):** put the first cell in the **log layer (30 ≲ y⁺ ≲ 300, often
   aim 30–100)** and **bridge the sublayer analytically** with a wall function. Cheaper; standard
-  for large external/industrial RANS where wall heat transfer is secondary. **Never land the
-  first cell in the buffer layer (5–30).** [S13][S9]
+  for large external/industrial RANS where wall heat transfer is secondary. **With *standard* wall
+  functions, avoid landing the first cell in the buffer layer (5–30)** — the all-y⁺/scalable note below
+  degrades gracefully there; either way, verify the *achieved* y⁺ and the wall QoIs. [S13][S9]
 - **Hybrid / all-y⁺ / enhanced / scalable wall treatment (SST, Fluent EWT, CFX/STAR-CCM+ all-y⁺):**
   modern blends that **degrade gracefully across the whole y⁺ range** so you are not punished for
   a mesh that wanders out of the target band. **k-ω SST with all-y⁺ treatment is the robust
@@ -581,8 +582,8 @@ and reproducibility. [S24][S25][S26][S27]
   for swirl/anisotropy; escalate to **DDES/SBES → LES** only for resolved unsteady separation.
   [S5][S11][S8]
 - **Near wall:** wall-resolved **y⁺ ≈ 1** (heat transfer / separation / transition), or
-  **30 ≲ y⁺ ≲ 300** with wall functions; **never 5–30**; **≥ 10–15 prism layers, growth ≤ 1.2,
-  total ≈ δ**, verify achieved y⁺. [S13][S9][S17]
+  **30 ≲ y⁺ ≲ 300** with *standard* wall functions (avoid 5–30; all-y⁺/scalable treatments tolerate it —
+  verify achieved y⁺ **and** wall QoIs); **≥ 10–15 prism layers, growth ≤ 1.2, total ≈ δ**. [S13][S9][S17]
 - **Mesh:** hex/poly core + prism layers; **non-orthogonality < 70°, skewness < ~0.85, no
   negative volumes**; ≥ 3 grids for GCI. [S14][S17]
 - **Schemes:** **2nd-order upwind + limiter** (steady); **bounded-central** (LES); first-order only

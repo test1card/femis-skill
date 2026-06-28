@@ -1,5 +1,5 @@
 {
-  "_about": "Adversarial activation/behavior eval set for the fem-cae skill. Each case asserts what a correctly-behaving agent should do: which reference(s)/script(s) it should load (discovery), which execution mode applies, and whether the right move is to claim, diagnose, refuse, or escalate. Validate structure with `python scripts/run_skill_evals.py`; score live agent responses with the same module's score_response(). Behavior vocabulary: route | claim | diagnose | refuse | escalate. Mode vocabulary: SMOKE | DEBUG | ENGINEERING | SIGNOFF | n/a.",
+  "_about": "Adversarial activation/behavior eval set for the femis skill. Each case asserts what a correctly-behaving agent should do: which reference(s)/script(s) it should load (discovery), which execution mode applies, and whether the right move is to claim, diagnose, refuse, or escalate. Validate structure with `python scripts/run_skill_evals.py`; score live agent responses with the same module's score_response(). Behavior vocabulary: route | claim | diagnose | refuse | escalate. Mode vocabulary: SMOKE | DEBUG | ENGINEERING | SIGNOFF | n/a.",
   "cases": [
     {
       "id": "mesh-independence",

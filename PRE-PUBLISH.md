@@ -1,19 +1,19 @@
 # Pre-Publish Checklist
 
 This skill's **content is a release candidate**. The owner-bound fields below are now wired to
-`https://github.com/test1card/fem-cae-skill`, but the **repository must still be created and pushed**, and the
+`https://github.com/test1card/femis-skill`, but the **repository must still be created and pushed**, and the
 release **tagged**, before it is publicly installable. The repo is **not** published until every box is checked.
 
 ## 1. Repository identity
-- [x] Plugin/skill name `fem-cae`; **GitHub repo `fem-cae-skill`** (owner `test1card`). The skill installs
-      into a `fem-cae/` folder, so the repo name and skill-folder name intentionally differ.
-- [x] `.claude-plugin/plugin.json` carries `homepage` + `repository` = `https://github.com/test1card/fem-cae-skill`.
-- [x] `README.md` documents copy-based install **and** `git clone … skills/fem-cae` using the repo URL.
-- [ ] **Create the GitHub repository `test1card/fem-cae-skill` and push** `master` — nothing is publicly
+- [x] Plugin/skill name `femis`; **GitHub repo `femis-skill`** (owner `test1card`). The skill installs
+      into a `femis/` folder, so the repo name and skill-folder name intentionally differ.
+- [x] `.claude-plugin/plugin.json` carries `homepage` + `repository` = `https://github.com/test1card/femis-skill`.
+- [x] `README.md` documents copy-based install **and** `git clone … skills/femis` using the repo URL.
+- [ ] **Create the GitHub repository `test1card/femis-skill` and push** `master` — nothing is publicly
       installable until this is done. (Not done automatically; no push happens without your go-ahead.)
 
 ## 2. Attribution / license
-- [ ] `NOTICE` reads `Copyright 2026 The fem-cae Authors`. Change to your name/org if desired.
+- [ ] `NOTICE` reads `Copyright 2026 The femis Authors`. Change to your name/org if desired.
 - [ ] Keep `.claude-plugin/plugin.json` `author.name` in sync with `NOTICE`.
 - [ ] `LICENSE` is stock Apache-2.0; its APPENDIX `[yyyy] [name of copyright owner]` is template
       boilerplate, intentionally left as-is — the real copyright lives in `NOTICE`, not the appendix.

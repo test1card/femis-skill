@@ -32,4 +32,4 @@ assignees: ''
 
 ## Suggested fix (optional)
 
-<!-- If you know the correct recipe or value, please include it with a confidence tag ([VERIFIED] / [DOCS-ONLY] / etc.) and the source. -->
+<!-- If you know the correct recipe or value, please include it with a confidence tag ([AUTHOR-VERIFIED] / [DOCS-ONLY] / etc.) and the source. -->

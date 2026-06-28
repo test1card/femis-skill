@@ -1,7 +1,7 @@
-# fem-cae — presentation / discovery metadata for OpenAI Codex-style hosts.
+# femis — presentation / discovery metadata for OpenAI Codex-style hosts.
 # OPTIONAL. Mirrors the SKILL.md frontmatter so Codex can surface and route to this skill.
 # The authoritative skill definition is SKILL.md (Claude Agent Skill format).
-name: fem-cae
+name: femis
 version: "1.0.0"
 license: Apache-2.0
 entrypoint: SKILL.md

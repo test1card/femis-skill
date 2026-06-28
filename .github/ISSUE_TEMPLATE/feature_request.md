@@ -20,7 +20,7 @@ assignees: ''
 
 ## Draft content (optional)
 
-<!-- If you have a recipe, table of values, or headless command, paste it here. Include a confidence tag: [VERIFIED] (solver + version), [DOCS-ONLY], [VERIFIED-web], or [NEEDS-HW-TEST]. -->
+<!-- If you have a recipe, table of values, or headless command, paste it here. Include a confidence tag: [AUTHOR-VERIFIED] (solver + version), [DOCS-ONLY], [VERIFIED-web], or [NEEDS-HW-TEST]. -->
 
 ## Source / reference
 

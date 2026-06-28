@@ -12,7 +12,7 @@
 
 ## Confidence tag
 
-- [ ] `[VERIFIED]` — I ran this on a real model and checked the result.
+- [ ] `[AUTHOR-VERIFIED]` — I ran this on a real model and checked the result.
 - [ ] `[VERIFIED-web]` — Cross-checked against vendor docs / known sources; not run locally.
 - [ ] `[DOCS-ONLY]` — Taken from official documentation; clearly tagged in the text.
 - [ ] `[NEEDS-HW-TEST]` — Plausible but untested; tagged as such.

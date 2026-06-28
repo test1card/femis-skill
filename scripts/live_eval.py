@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Live A/B eval runner — measures whether loading the fem-cae skill changes agent behavior.
+"""Live A/B eval runner — measures whether loading the femis skill changes agent behavior.
 
 This is the *live* complement to `run_skill_evals.py` (which is the deterministic, LLM-free
 structural validator run in CI). It runs each case in `evals/prompts.json` through an agent
-**twice** — once with the fem-cae skill loaded as the system prompt (skill-on), once with no
+**twice** — once with the femis skill loaded as the system prompt (skill-on), once with no
 skill (skill-off baseline) — scores both with `run_skill_evals.score_response`, and reports the
 uplift. That uplift is the evidence that the skill governs behavior, not just reads well.
 
@@ -33,12 +33,12 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MODEL = "claude-opus-4-8"  # default; override with --model
 
 SKILL_ON_PREAMBLE = (
-    "You are an AI engineering agent operating UNDER the fem-cae governance skill included "
+    "You are an AI engineering agent operating UNDER the femis governance skill included "
     "below. Follow it faithfully: apply its execution-mode gates (SMOKE/DEBUG/ENGINEERING/"
     "SIGNOFF) and the pre-claim self-check before stating any number, honor the headless-vs-"
     "human contract, and escalate human-judgment decisions (load case, contact type, "
     "allowable, defeature, sign-off) instead of deciding them yourself. Answer the user's "
-    "prompt exactly as that governed agent would.\n\n===== fem-cae SKILL.md =====\n"
+    "prompt exactly as that governed agent would.\n\n===== femis SKILL.md =====\n"
 )
 
 

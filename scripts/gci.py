@@ -152,8 +152,12 @@ def main(argv):
     if len(argv) != 6:
         print(__doc__)
         return 2
-    h1, f1, h2, f2, h3, f3 = map(float, argv)
-    res = gci(h1, f1, h2, f2, h3, f3)
+    try:
+        h1, f1, h2, f2, h3, f3 = map(float, argv)
+        res = gci(h1, f1, h2, f2, h3, f3)
+    except ValueError as e:
+        print(f"error: {e}")
+        return 2
     print(f"refinement ratios     = r21 {res['r21']:.3f}, r32 {res['r32']:.3f}")
     print(f"convergence ratio R   = {res['convergence_ratio_R']:.3f}  (0<R<1 converging)")
     print(f"observed order p      = {res['observed_order_p']:.3f}"

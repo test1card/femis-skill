@@ -1,4 +1,4 @@
-# fem-cae — an Agent Skill for FEM/CAE (structural · thermal · CFD · EM · multiphysics, across many solvers)
+# FEMis — an Agent Skill for FEM/CAE (structural · thermal · CFD · EM · multiphysics, across many solvers)
 
 A [Claude Code Agent Skill](https://code.claude.com/docs/en/skills) that turns an AI coding agent into a
 disciplined finite-element analyst. It encodes the full CAE workflow — idealization → meshing → connections →
@@ -8,11 +8,11 @@ gotchas** that usually cost hours to rediscover.
 Two things set it apart from a textbook: a precise **agent-headless-vs-human contract** (what an automation
 agent may run unattended versus what a person must do in the GUI), and a set of **field-derived,
 confidence-tagged failure-mode recipes** — e.g. headless thermal-contact pitfalls that silently produce wrong
-results — rarely collected in one place. Recipes carry a provenance tag (`[VERIFIED]` / `[DOCS-ONLY]` /
+results — rarely collected in one place. Recipes carry a provenance tag (`[AUTHOR-VERIFIED]` / `[DOCS-ONLY]` /
 `[VERIFIED-web]`) so you can see how far each has been checked.
 
-**How it fits:** fem-cae is the *methodology / decision layer*, not a solver driver. Pair it with an executor —
-PyMAPDL / PyMechanical / PyFluent, a driver skill, or an Ansys / Abaqus / OpenFOAM MCP server — which fem-cae
+**How it fits:** femis is the *methodology / decision layer*, not a solver driver. Pair it with an executor —
+PyMAPDL / PyMechanical / PyFluent, a driver skill, or an Ansys / Abaqus / OpenFOAM MCP server — which femis
 **governs**: it guides and audits the idealization, element, mesh, and connection choices, enforces the execution-mode gates and
 V&V, and tells you (via the headless-vs-human contract) what the executor may run unattended versus what needs a
 person — while **human-judgment choices (load basis, contact type, defeature scope, allowables, and sign-off) remain with a qualified engineer.** It is the brain on top of the hands.
@@ -108,7 +108,7 @@ The `scripts/` are covered by a `pytest` suite (`tests/test_scripts.py`, 56 chec
 
 ## Recommended Agentic CAE Workflow
 
-`fem-cae` is designed to sit at the top of an agentic CAE stack as the **governance layer**. It works best when
+`femis` is designed to sit at the top of an agentic CAE stack as the **governance layer**. It works best when
 paired with solver executors, geometry/mesh tools, and post-processing scripts.
 
 A robust workflow looks like this:
@@ -117,11 +117,11 @@ A robust workflow looks like this:
    environment, acceptance criteria, solver, and consequence level.
    *Human-owned decisions:* load basis, allowables, design code, idealization, and sign-off authority.
 
-2. **Governance / claim discipline** — use `fem-cae` to choose the execution mode (SMOKE, DEBUG, ENGINEERING,
+2. **Governance / claim discipline** — use `femis` to choose the execution mode (SMOKE, DEBUG, ENGINEERING,
    SIGNOFF). The mode determines which gates are mandatory and what the agent may claim.
 
 3. **Geometry and meshing** — use the appropriate geometry/meshing tool (FreeCAD, Gmsh, PyPrimeMesh,
-   PyMechanical, or a commercial meshing API). `fem-cae` governs mesh adequacy; it is not itself a mesher.
+   PyMechanical, or a commercial meshing API). `femis` governs mesh adequacy; it is not itself a mesher.
 
 4. **Solver execution** — pair with an executor that runs models, for example:
    - Open FEM Agent
@@ -133,7 +133,7 @@ A robust workflow looks like this:
    - PyAEDT for electromagnetics
    - internal CAE driver skills or MCP servers
 
-   The executor runs the solve. `fem-cae` governs the claim.
+   The executor runs the solve. `femis` governs the claim.
 
 5. **Verification** — run units, mass, reaction/balance, convergence, singularity, mesh/time-step, and
    provenance checks. For sign-off-supporting claims, require GCI or an equivalent documented error bound.
@@ -146,39 +146,39 @@ A robust workflow looks like this:
 
 8. **Human sign-off** — the agent prepares the evidence package; a qualified engineer accepts or rejects the result.
 
-This separation is intentional: solver executors run models; `fem-cae` decides whether the resulting numbers
+This separation is intentional: solver executors run models; `femis` decides whether the resulting numbers
 are only SMOKE/DEBUG artifacts, usable ENGINEERING results, or sign-off-supporting evidence.
 
 ### Pairing With Open FEM Agent
 
 [Open FEM Agent](https://github.com/alhermann/open-fem-agent) is a natural companion for open-source FEM
-execution. It focuses on running and interrogating FEM backends; `fem-cae` sits above that layer and governs
+execution. It focuses on running and interrogating FEM backends; `femis` sits above that layer and governs
 claim quality, convergence evidence, provenance, and human-judgment boundaries. **Use Open FEM Agent to
-execute; use `fem-cae` to decide what may be claimed** — one recommended executor, not a blessed default.
+execute; use `femis` to decide what may be claimed** — one recommended executor, not a blessed default.
 
 ## Install
 
 This repository **is** the skill: `SKILL.md` lives at the repo root, with `references/` and `scripts/`
-beside it. Install it by placing the repo contents into a directory named `fem-cae` under a `skills/`
-folder, so the path ends up `…/skills/fem-cae/SKILL.md`.
+beside it. Install it by placing the repo contents into a directory named `femis` under a `skills/`
+folder, so the path ends up `…/skills/femis/SKILL.md`.
 
-**Personal (all projects):** copy the repo contents into `~/.claude/skills/fem-cae/` (macOS/Linux) or
-`%USERPROFILE%\.claude\skills\fem-cae\` (Windows), with `SKILL.md` at that folder's root.
+**Personal (all projects):** copy the repo contents into `~/.claude/skills/femis/` (macOS/Linux) or
+`%USERPROFILE%\.claude\skills\femis\` (Windows), with `SKILL.md` at that folder's root.
 
-**Project-scoped:** copy the repo contents into `./.claude/skills/fem-cae/` (again with `SKILL.md` at
+**Project-scoped:** copy the repo contents into `./.claude/skills/femis/` (again with `SKILL.md` at
 that folder's root).
 
 **Pin a version** for reproducibility — install from a known tag or commit so an analysis always runs
 against a fixed revision of the methodology (after cloning a published copy: `git -C <skill-dir> checkout <tag-or-sha>`).
 
-Or **clone it directly** into the skill path — note the repo is `fem-cae-skill` but the skill folder is
-`fem-cae`:
+Or **clone it directly** into the skill path — note the repo is `femis-skill` but the skill folder is
+`femis`:
 
 ```bash
 # personal (all projects)
-git clone https://github.com/test1card/fem-cae-skill ~/.claude/skills/fem-cae
+git clone https://github.com/test1card/femis-skill ~/.claude/skills/femis
 # project-scoped
-git clone https://github.com/test1card/fem-cae-skill .claude/skills/fem-cae
+git clone https://github.com/test1card/femis-skill .claude/skills/femis
 ```
 
 Then pin a revision for reproducibility: `git -C <skill-dir> checkout <tag-or-sha>`. See
@@ -188,7 +188,7 @@ The skill activates automatically when the agent's task matches the `description
 transient thermal solve", "calibrate a cooldown curve", "mesh-independence study", ".rth parse"). No manual
 invocation needed.
 
-> Layout note: a bare skill is just the `fem-cae/` folder (with `SKILL.md` at its root) dropped into a
+> Layout note: a bare skill is just the `femis/` folder (with `SKILL.md` at its root) dropped into a
 > `skills/` directory. To distribute it as an installable Claude Code **plugin** (`/plugin` + a marketplace
 > listing), wrap it with a `.claude-plugin/plugin.json`.
 
@@ -206,9 +206,9 @@ calibration / inverse parameter ID & model updating; V&V/UQ; cryogenic / vacuum 
 
 ## Provenance & honesty
 
-The headless/automation recipes are tagged by confidence: `[VERIFIED]` (run on a real model), `[DOCS-ONLY]`
+The headless/automation recipes are tagged by confidence: `[AUTHOR-VERIFIED]` (run on a real model), `[DOCS-ONLY]`
 (from documentation, not executed here), `[VERIFIED-web]` / `[NEEDS-HW-TEST]` (vendor-documented; reproduce on
-your licensed install before relying on it for ENGINEERING/SIGNOFF). Treat any non-`[VERIFIED]` recipe as a
+your licensed install before relying on it for ENGINEERING/SIGNOFF). Treat any non-`[AUTHOR-VERIFIED]` recipe as a
 hypothesis and run a SMOKE reproducer first.
 
 ## License
@@ -219,6 +219,6 @@ and standards.
 
 ## Contributing
 
-Issues and PRs welcome — especially additional `[VERIFIED]` headless recipes and platform gotchas. Keep
+Issues and PRs welcome — especially additional `[AUTHOR-VERIFIED]` headless recipes and platform gotchas. Keep
 `SKILL.md` a lean router; put depth in `references/`. Follow the skill-authoring conventions in
 Anthropic's [Agent Skills best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices).

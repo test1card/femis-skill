@@ -1,4 +1,4 @@
-# Live A/B results — does loading `fem-cae` change agent behavior?
+# Live A/B results — does loading `femis` change agent behavior?
 
 This is the **live** companion to the structural eval set (`prompts.json`, validated in CI). It records a
 skill-on vs skill-off A/B over representative cases, so the claim "the skill governs behavior" rests on
@@ -23,7 +23,7 @@ The skill does **not** turn a wrong answer into a right one here.
 
 What the skill **does** change, on **every** case, is the **governance scaffolding** around that judgment:
 
-| Governance signal | skill-off (baseline) | skill-on (fem-cae) |
+| Governance signal | skill-off (baseline) | skill-on (femis) |
 |---|---|---|
 | **Execution-mode labelling** (SMOKE / DEBUG / ENGINEERING / SIGNOFF) | absent | present, and used to gate what may be claimed |
 | **Runnable tool routing** (`scripts/gci.py`, `scripts/units_check.py`) | not mentioned | named as the way to produce the number |

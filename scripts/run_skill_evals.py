@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Static validator + scoring harness for the fem-cae skill's activation/behavior evals.
+"""Static validator + scoring harness for the femis skill's activation/behavior evals.
 
 Two uses:
 
@@ -94,10 +94,18 @@ def score_response(case: dict, response_text: str) -> dict:
     escalate_markers = ("which", "decision", "escalate", "requirements", "load basis",
                         "engineer must", "you decide", "should i", "confirm")
     behavior = case["expect_behavior"]
+    diagnose_markers = ("because", "cause", "likely", "check", "mismatch", "wrong",
+                        "units", "density", "off by", "factor of", "suspect", "root")
     if behavior in ("refuse", "escalate"):
         behavior_ok = any(m in low for m in refuse_markers + escalate_markers)
-    else:
-        behavior_ok = True  # route/claim/diagnose are not adversarially gated by this heuristic
+    elif behavior == "claim":
+        # a real claim names a mode AND states a number/QoI — not just prose
+        behavior_ok = ((case["expect_mode"] != "n/a" and mode_ok)
+                       or "=" in response_text or any(ch.isdigit() for ch in response_text))
+    elif behavior == "diagnose":
+        behavior_ok = any(m in low for m in diagnose_markers)
+    else:  # route — gated instead by refs_ok / scripts_ok in `overall`
+        behavior_ok = True
 
     refs_ok = (not case.get("expect_refs")) or bool(refs_hit)
     scripts_ok = (not case.get("expect_scripts")) or bool(scripts_hit)

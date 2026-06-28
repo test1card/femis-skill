@@ -34,8 +34,10 @@ Gates passed: units; connectivity; reaction/heat/mass balance; convergence; QoI 
 Gates passed: all ENGINEERING + mesh & time-step independence (GCI, asymptotic range) + traceable report + error bounds. You may NOT skip a gate or hand-wave uncertainty.
 > **SIGNOFF-supporting result.** `<QoI>` = `<value>` ± `<error bound> <units>`, `<load case>`.
 > Mesh independence: GCI_fine = `<%>` over `<N>` grids (r = `<ratio>`, p = `<observed order>`, asymptotic
-> `<GCI23/(r^p·GCI12) ≈ 1>`). Time-step independence: `<verdict>`. Validation: `<vs test/benchmark; u_val;
-> |E| ≤ u_val>` (calibration ≠ validation). Margin of safety: `<MoS>` vs `<code/criterion>` with
+> `<GCI23/(r^p·GCI12) ≈ 1>`). Time-step independence: `<verdict>`. Code verification: `<vs analytical /
+> NAFEMS benchmark — this is VERIFICATION, not validation>`. Validation: `<vs independent EXPERIMENTAL test;
+> u_val; |E| ≤ u_val — or state "NOT validated: no test data">` (benchmarks ≠ validation; calibration ≠
+> validation). Margin of safety: `<MoS>` vs `<code/criterion>` with
 > `<FoS + model-uncertainty factor>`. Evidence: `run_manifest.json <id>`, solver `<name + version>`, deck hash
 > `<…>`, result hash `<…>`. Credibility: `<NASA CAS / Sandia PCMM weakest factor>`. **A qualified engineer,
 > not this agent, accepts the sign-off.**

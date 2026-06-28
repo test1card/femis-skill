@@ -1,7 +1,7 @@
 # Ansys Mechanical — Headless Fix for Thermally-Inert Structural Contacts (CONTA174)
 
 > **STATUS LEGEND (applies throughout the skill — tag every recipe at point of use):**
-> **[VERIFIED]** = **author-verified** — reproduced on a representative test model by the authors.
+> **[AUTHOR-VERIFIED]** = **author-verified** — reproduced on a representative test model by the authors.
 > Sanitized reproducer decks/logs are **not** shipped with the skill, so confirm once on your own licensed
 > install before relying on it as ground truth for ENGINEERING/SIGNOFF.
 > **[DOCS-ONLY — not executed]** = plausible from documentation, NOT yet run on a model — confirm once on the
@@ -416,7 +416,7 @@ object, the mesh, or any pre-solve snippet.
 
 ---
 
-## 4b. PROVEN headless fix (reproduced on a representative multi-body assembly) — supersedes guesswork in §2   `[VERIFIED]`
+## 4b. PROVEN headless fix (reproduced on a representative multi-body assembly) — supersedes guesswork in §2   `[AUTHOR-VERIFIED]`
 
 The reliable way to make Workbench emit a correct **thermal** deck (verified):
 ```python
@@ -441,12 +441,12 @@ Patterns this exposes:
 
 ## 4c. Recovering & GATING thermal connectivity headless (answers live open-questions)
 
-**Do NOT build the body-connectivity graph from `mapdl.mesh.grid` (pyvista).** `[VERIFIED]` The VTK
+**Do NOT build the body-connectivity graph from `mapdl.mesh.grid` (pyvista).** `[AUTHOR-VERIFIED]` The VTK
 grid silently **drops TARGE170** (and some link/surface elements) — `ansys_elem_type_num` shows only
 `[174, 279, 291]` and `grid.n_cells` < model element count. A union-find from the grid sees each CONTA174 surface touching only ONE
 body → every pair maps to one body → all-singleton components (false "everything disconnected").
 
-**`get_array(ELEM,ATTR,REAL/MAT)` does not honor `ESEL,ENAME`** `[VERIFIED]` (it fills by element
+**`get_array(ELEM,ATTR,REAL/MAT)` does not honor `ESEL,ENAME`** `[AUTHOR-VERIFIED]` (it fills by element
 number over the master set, returning identical real-constant IDs across different element types, e.g. CONTA174 and TARGE170) — don't use it to
 pair reals to bodies.
 
@@ -468,7 +468,7 @@ def bodies_of_real(mapdl, r, body_mat_ids):
 ```
 (Per-MAT `ESEL,R` + COUNT is deterministic; sidesteps the `get_array` quirk and the "cid/tid consecutive" assumption.)
 
-**PREFERRED — offline deck parse (most reliable; avoids BOTH traps above)** `[VERIFIED]`**:**
+**PREFERRED — offline deck parse (most reliable; avoids BOTH traps above)** `[AUTHOR-VERIFIED]`**:**
 in the WB deck, **solids use MAT 1..N, one MAT per body**, named in `/com,Elements for Body N '<name>'`;
 **contact element types use MAT/TYPE/REAL ≥ N+1 and are declared by PARAMETER name** (`*set,cid,192` then
 `et,cid,174`) — so a numeric `et,N,M` regex **misses them**. Each `/wb,contact` "Create Contact Region" block
@@ -476,7 +476,7 @@ holds the contact eblock (compact) + a comment `… Real Constant Set … Is 193
 → body via the solid node→body table, and read the companion pair from that comment → direct (real → bodyA,bodyB)
 map, no MAPDL selection, no pyvista grid.
 
-**⚠️ Symmetric (deformable-deformable) contact breaks the cid/tid split** `[VERIFIED]`: when both
+**⚠️ Symmetric (deformable-deformable) contact breaks the cid/tid split** `[AUTHOR-VERIFIED]`: when both
 bodies carry **both** CONTA174 (cid) **and** TARGE170 (tid) — the Workbench default for many auto pairs —
 splitting interface nodes by **element type** (174 vs 170) does **not** separate the two bodies; it yields
 **self-links** (a node matched to itself, gap≈0, `n_contact == n_target`). **You MUST split interface nodes by
@@ -562,7 +562,7 @@ output ON**, else zero). If heat flows *into* body 1 but not *out* toward body 2
 
 ---
 
-## 4e. Robust fallback — LINK33 thermal-conductor network (when bonded contacts won't conduct) `[VERIFIED]`
+## 4e. Robust fallback — LINK33 thermal-conductor network (when bonded contacts won't conduct) `[AUTHOR-VERIFIED]`
 
 > **Worked example (representative — a generic illustrative case, not a specific project result):** the
 > LINK33 network solved end-to-end (steady anchor non-singular, all bodies reach the anchor) and calibrated

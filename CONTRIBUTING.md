@@ -1,11 +1,11 @@
-# Contributing to fem-cae
+# Contributing to femis
 
 Thanks for improving this skill. The goal is to make the agent more reliable on real FEA/CAE problems — not to expand its scope or inflate the router.
 
 ## What to contribute
 
 **High value:**
-- `[VERIFIED]` headless recipes you have run on a real solver install (flag the solver version).
+- `[AUTHOR-VERIFIED]` headless recipes you have run on a real solver install (flag the solver version).
 - Platform-specific gotchas that cost you time (contact KEYOPT traps, batch non-convergence silences, license error messages, etc.).
 - Benchmarks or sanity-check cases with known answers (NAFEMS, Roark, analytical).
 - Corrections to wrong or misleading values (material data, convergence criteria, element behaviour).
@@ -25,12 +25,12 @@ Every headless recipe or numerical value should carry one tag:
 
 | Tag | Meaning |
 |---|---|
-| `[VERIFIED]` | Run on a real model; results checked. Include solver + version. |
+| `[AUTHOR-VERIFIED]` | Run on a real model; results checked. Include solver + version. |
 | `[VERIFIED-web]` | Vendor-documented and cross-checked online; not run locally. |
 | `[DOCS-ONLY]` | Taken from official documentation; not executed here. |
 | `[NEEDS-HW-TEST]` | Plausible but untested; requires a licensed install to confirm. |
 
-Treat any non-`[VERIFIED]` entry as a hypothesis. Run a SMOKE reproducer before relying on it for ENGINEERING/SIGNOFF.
+Treat any non-`[AUTHOR-VERIFIED]` entry as a hypothesis. Run a SMOKE reproducer before relying on it for ENGINEERING/SIGNOFF.
 
 ## Structure rules
 
@@ -52,7 +52,7 @@ Treat any non-`[VERIFIED]` entry as a hypothesis. Run a SMOKE reproducer before 
   runs the suite on Python 3.10–3.13 plus a `manifest` job that validates `.claude-plugin/plugin.json` and checks
   every `references/`/`scripts/` path named in `SKILL.md` resolves (and that no pirated-doc links sneak in).
 - **Distribute via git, not a raw copy of the working tree.** `.gitignore` excludes all build/test caches
-  (`__pycache__/`, `.pytest_cache/`, `.ruff_cache/`). Package with `git archive --format=zip -o fem-cae.zip HEAD`
+  (`__pycache__/`, `.pytest_cache/`, `.ruff_cache/`). Package with `git archive --format=zip -o femis.zip HEAD`
   (after `git init && git add . && git commit`) or a fresh `git clone` — zipping the working directory directly
   would ship those caches.
 

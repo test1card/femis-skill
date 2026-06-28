@@ -100,7 +100,7 @@ These extend the agent-headless surface beyond the core MAPDL/Mechanical/Workben
 **Fully agent-headless (no GUI, no live interactive session beyond the solve):**
 1. **PyMAPDL** is the gold standard: `*SET`/`*GET`, `mapdl.parameters[...]`, mesh, materials (`MP`/`TB`), BCs, `SOLVE` — all zero-GUI. Parameters are first-class; **no GUI promotion needed**.
 2. **Embedded PyMechanical** `App(globals=globals())` **always runs in batch mode**, the same way Mechanical runs batch — no GUI window.
-3. **DPF** (`ansys-dpf-core`) reads `.rst`/`.rth` on the client **license-free** — the headless post-processing workhorse. Temperatures from `.rth` are in °C internally; add 273.15 for K.
+3. **DPF** (`ansys-dpf-core`) reads `.rst`/`.rth` on the client **license-free** — the headless post-processing workhorse. DPF returns **raw solver/model temperature values** — infer the unit & absolute convention from the deck (`TUNIF`/`TREF`/`TOFFST`, units system, radiation setup), **not** from a blanket rule. Do **not** add 273.15 blindly: an absolute offset is valid only if the model truly worked in °C, whereas radiation / `TOFFST` problems usually run in absolute K already.
 4. **Simcenter Nastran** standalone solver: `nastran.exe deck.dat scr=y old=n` — SOL 153/159 thermal and SOL 200 optimization run fully headless from a text deck. Parse `.f06`/`.op2`/`.mntr`.
 5. **TMG and SINDA/FLUINT solves** are headless once the deck/network exists.
 6. **Abaqus**: `abaqus cae noGUI=script.py` + `abaqus job=` are headless end-to-end; `.odb` post via `odbAccess`.

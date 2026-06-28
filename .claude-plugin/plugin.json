@@ -1,12 +1,12 @@
 {
-  "name": "fem-cae",
+  "name": "femis",
   "description": "Turns an AI coding agent into a disciplined finite-element analyst. Encodes the full CAE workflow (idealization -> meshing -> connections -> solve controls -> convergence -> GCI mesh independence -> V&V), headless/batch automation recipes, result-parsing gotchas, and a precise headless-vs-human contract across Ansys, Simcenter, Thermal Desktop, Abaqus, LS-DYNA, MSC Nastran, COMSOL, OpenFOAM and more.",
   "version": "1.0.0",
   "author": {
-    "name": "The fem-cae Authors"
+    "name": "The femis Authors"
   },
-  "homepage": "https://github.com/test1card/fem-cae-skill",
-  "repository": "https://github.com/test1card/fem-cae-skill",
+  "homepage": "https://github.com/test1card/femis-skill",
+  "repository": "https://github.com/test1card/femis-skill",
   "license": "Apache-2.0",
   "keywords": [
     "FEM", "FEA", "CAE", "Ansys", "Simcenter", "Nastran", "MAPDL",
