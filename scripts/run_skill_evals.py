@@ -100,14 +100,16 @@ def score_response(case: dict, response_text: str) -> dict:
         behavior_ok = True  # route/claim/diagnose are not adversarially gated by this heuristic
 
     refs_ok = (not case.get("expect_refs")) or bool(refs_hit)
+    scripts_ok = (not case.get("expect_scripts")) or bool(scripts_hit)
     need = case.get("must_mention", [])
     mentions_ok = (not need) or len(mentions_hit) >= max(1, len(need) // 2)
-    overall = refs_ok and mode_ok and behavior_ok and mentions_ok
+    overall = refs_ok and scripts_ok and mode_ok and behavior_ok and mentions_ok
     return {
         "id": case["id"],
         "overall": overall,
         "refs_ok": refs_ok,
         "refs_hit": refs_hit,
+        "scripts_ok": scripts_ok,
         "scripts_hit": scripts_hit,
         "mode_ok": mode_ok,
         "behavior_ok": behavior_ok,

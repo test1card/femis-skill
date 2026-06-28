@@ -18,6 +18,7 @@
     { "file": "scripts/mac.py", "summary": "Modal Assurance Criterion (MAC) and Coordinate MAC (COMAC) for mode-shape correlation." },
     { "file": "scripts/rainflow.py", "summary": "ASTM E1049 rainflow cycle counting for fatigue post-processing." },
     { "file": "scripts/run_skill_evals.py", "summary": "Static validator + scoring harness for the activation/behavior eval set." },
+    { "file": "scripts/live_eval.py", "summary": "Optional live A/B harness (skill-on vs skill-off) over evals/prompts.json; measures behavior change via the Anthropic SDK or any agent callable." },
     { "file": "scripts/units_check.py", "summary": "Consistent-units and 1g mass sanity checks for FE models." },
     { "file": "scripts/yplus.py", "summary": "y+ first-cell-height estimator for wall-bounded CFD meshing." }
   ],

@@ -110,6 +110,9 @@ were corrected in place (see the end).
 - **ASME V&V 20 `|E| ≤ u_val`** (`SKILL.md`): clarified as a *resolution/noise floor* for detecting model
   error, not a binary pass/fail "validated" test.
 
-*Methodology: six parallel domain reviews, each instructed to prefer consensus standards > classic textbooks >
-peer-reviewed papers > authoritative vendor manuals, and to mark UNVERIFIED rather than cite an unconfirmed
-source. Every DOI/standard number above was confirmed to resolve to the stated work.*
+*Methodology (disclosed, not independently reproducible from this repo): this table was assembled by parallel
+domain reviews instructed to prefer consensus standards > classic textbooks > peer-reviewed papers >
+authoritative vendor manuals, and to mark UNVERIFIED rather than cite an unconfirmed source; the cited
+DOI/standard numbers were checked to resolve to the stated work. The per-review logs are **not** shipped, so
+treat this as a **sourcing map to verify against**, not an audit certificate — the authority is the cited
+standard/paper itself, which you can confirm directly. Corrections welcome via PR.*

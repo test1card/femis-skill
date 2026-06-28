@@ -75,6 +75,8 @@ def gci(h1, f1, h2, f2, h3, f3, Fs=1.25):
       order_converged     : the p fixed-point converged.
       valid               : converging AND p>0 AND GCIs finite & positive -> GCI meaningful.
     """
+    if not (h1 > 0.0 and h2 > 0.0 and h3 > 0.0):
+        raise ValueError("Grid representative spacings must be positive (h > 0).")
     if not (h1 < h2 < h3):
         raise ValueError("Need h1 < h2 < h3 (finest first).")
     r21 = h2 / h1

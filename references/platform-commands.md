@@ -151,7 +151,7 @@ RBE2 (rigid), RBE3 (distributed), RBAR, MPC, CBUSH (6-DOF), CELAS, CWELD (spot),
 
 OpenTD = .NET (Net4.8/Net8) API; engine SINDA/FLUINT (a **batch-style solution engine**); radiation RadCAD (Monte-Carlo ray trace). Drive via Python+pythonnet, C# (recommended), VB, or MATLAB.
 
-**Headless reality `[DOCS-ONLY]`:** the GUI block is **geometry *authoring*** (AutoCAD-based) — **solving, parametric sweeps, and post are scriptable** via OpenTD on an **existing `.dwg`** (create/query/modify/**run**/control). So the practical pattern is: author the `.dwg` once in the GUI, then drive solves/symbol-sweeps/post headlessly. `OpenTD.CoSolver` links a running SINDA solution to other software (live co-solve). pythonnet must match CPython (fails on 3.14 → use 3.11/3.12, or host from C#).
+**Headless reality `[DOCS-ONLY]`:** the GUI block is **geometry *authoring*** (AutoCAD-based) — **solving, parametric sweeps, and post are scriptable** via OpenTD on an **existing `.dwg`** (create/query/modify/**run**/control). So the practical pattern is: author the `.dwg` once in the GUI, then drive solves/symbol-sweeps/post headlessly. `OpenTD.CoSolver` links a running SINDA solution to other software (live co-solve). pythonnet must match the CPython version: **pythonnet ≥3.1 supports CPython 3.10–3.14** — do *not* assume 3.14 fails; pin a tested pythonnet+Python pair per TD release (older pythonnet builds were the source of the "use 3.11/3.12" rule), or host from C#. See `references/agent-automation-boundary.md` (§ "Python runtime for OpenTD").
 
 ### D.1 Connect / load (Python)
 ```python

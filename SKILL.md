@@ -15,10 +15,11 @@ metadata:
 
 ## Overview
 
-Run and automate finite-element and CAE analysis end-to-end: locate the installed solver, build the
-deck/script, launch **headless/batch**, tail the log for convergence, parse results, and apply professional
-practice (idealization → meshing → connections → solve controls → convergence → mesh independence → V&V) on
-every run. The **methodology is solver-agnostic**; worked depth here is Ansys / Simcenter / Thermal Desktop, with
+Govern finite-element and CAE analysis end-to-end. **Paired with an executor** (PyMAPDL, PyMechanical,
+PyFluent, an Abaqus/OpenFOAM driver, a CAE MCP — see "governance layer, not the executor" below) the *executor*
+locates the installed solver, builds the deck/script, and launches **headless/batch**; **this skill** guides and
+audits the idealization, reads the log for convergence, inspects/parses results, and enforces professional practice
+(idealization → meshing → connections → solve controls → convergence → mesh independence → V&V) on every run. The **methodology is solver-agnostic**; worked depth here is Ansys / Simcenter / Thermal Desktop, with
 breadth across Abaqus, LS-DYNA, MSC/Simcenter Nastran, COMSOL, OpenFOAM, Fluent, CFX, STAR-CCM+, CalculiX,
 Code_Aster (see `references/software-landscape.md`).
 
@@ -197,7 +198,7 @@ check `GCI₂₃/(rᵖ·GCI₁₂)≈1`. Accept when QoI change <~1–2% and GCI
 
 ## CFD (depth: `references/cfd.md`)
 
-- **Turbulence:** RANS k-ω **SST** (general default), k-ε (free shear), transition γ-Reθ; LES/DES/DDES/SBES when RANS is inadequate (cost ↑↑). **Near-wall y+:** wall functions y+≈30–300 **or** wall-resolved y+<1 — never the buffer layer; ≥10–15 inflation layers; estimate first-cell height up front.
+- **Turbulence:** RANS k-ω **SST** (general default), k-ε (free shear), transition γ-Reθ; LES/DES/DDES/SBES when RANS is inadequate (cost ↑↑). **Near-wall y+:** wall functions y+≈30–300 **or** wall-resolved y+<1 — avoid the **buffer layer (~5–30)** for *standard* wall functions; *all-y+ / scalable / automatic* wall treatments tolerate buffer-zone y+ but you must confirm the model's wall treatment and post-check it; ≥10–15 inflation layers; estimate first-cell height up front.
 - **Mesh:** poly/hex/prism; check skewness & orthogonal quality; **mesh independence via GCI**. **Discretization:** 2nd-order upwind + bounded schemes; transient **Courant/CFL** target. **Convergence:** scaled residuals ~1e-3…1e-6 **but monitor integrated quantities** (drag/lift/ṁ/ΔP) and **imbalances <~1%** — residuals alone lie.
 - **Headless:** Fluent `fluent 3ddp -g -t N -i jou`; OpenFOAM text dicts + `Allrun` (`simpleFoam`/`pimpleFoam`); CFX `cfx5solve -batch`; STAR-CCM+ `starccm+ -batch macro.java`; SU2 `SU2_CFD`. **Coupling:** CHT, FSI one-way vs two-way (watch added-mass instability), mapping via preCICE/system coupling.
 
@@ -320,4 +321,4 @@ Ansys headless thermal-contact traps (CONTA174 KEYOPT(1)=0 thermally inert; `-di
 - `references/platform-commands.md` — MAPDL/Mechanical/Nastran/NX-Open/OpenTD command cheat-sheet.
 - `references/pymechanical-headless.md` — PyMechanical/Workbench headless gotchas.
 - `references/ansys-thermal-contact-pitfalls.md` — Ansys headless thermal-contact traps (CONTA17x KEYOPT(1) inert, `-dis` stragglers, silently-skipped non-convergence) [VERIFIED].
-- `scripts/gci.py` — Grid Convergence Index. `scripts/yplus.py` — y+ first-cell height. `scripts/units_check.py` — consistent-units + 1g mass check. `scripts/rainflow.py` — ASTM E1049 rainflow + Miner damage. `scripts/mac.py` — Modal Assurance Criterion + COMAC. `scripts/hourglass_check.py` — explicit-dynamics energy-quality gate. `scripts/run_skill_evals.py` — validate the activation/behavior eval set (`evals/prompts.json`) + score live agent responses. `scripts/run_manifest_template.json` — manifest template.
+- `scripts/gci.py` — Grid Convergence Index. `scripts/yplus.py` — y+ first-cell height. `scripts/units_check.py` — consistent-units + 1g mass check. `scripts/rainflow.py` — ASTM E1049 rainflow + Miner damage. `scripts/mac.py` — Modal Assurance Criterion + COMAC. `scripts/hourglass_check.py` — explicit-dynamics energy-quality gate. `scripts/run_skill_evals.py` — validate the activation/behavior eval set (`evals/prompts.json`) + score live agent responses. `scripts/live_eval.py` — optional live A/B harness (skill-on vs skill-off via the Anthropic SDK or any agent callable) that measures behavior change; results in `evals/RESULTS.md`. `scripts/run_manifest_template.json` — manifest template.

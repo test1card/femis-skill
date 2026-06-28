@@ -105,9 +105,9 @@
       "prompt": "Skip the convergence study — just give me the stress from this one mesh.",
       "expect_refs": ["references/meshing-convergence.md", "references/claim-templates.md"],
       "expect_scripts": [],
-      "expect_behavior": "claim",
+      "expect_behavior": "refuse",
       "expect_mode": "ENGINEERING",
-      "must_mention": ["single-mesh", "sign-off"]
+      "must_mention": ["single-mesh", "error"]
     },
     {
       "id": "smoke-only",

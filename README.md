@@ -6,9 +6,10 @@ solve controls → convergence → mesh independence → V&V — plus the **head
 gotchas** that usually cost hours to rediscover.
 
 Two things set it apart from a textbook: a precise **agent-headless-vs-human contract** (what an automation
-agent may run unattended versus what a person must do in the GUI), and a set of **battle-tested, `[VERIFIED]`
-failure-mode recipes** — e.g. headless thermal-contact pitfalls that silently produce wrong results — that no
-reference book contains.
+agent may run unattended versus what a person must do in the GUI), and a set of **field-derived,
+confidence-tagged failure-mode recipes** — e.g. headless thermal-contact pitfalls that silently produce wrong
+results — rarely collected in one place. Recipes carry a provenance tag (`[VERIFIED]` / `[DOCS-ONLY]` /
+`[VERIFIED-web]`) so you can see how far each has been checked.
 
 **How it fits:** fem-cae is the *methodology / decision layer*, not a solver driver. Pair it with an executor —
 PyMAPDL / PyMechanical / PyFluent, a driver skill, or an Ansys / Abaqus / OpenFOAM MCP server — which fem-cae
@@ -32,7 +33,7 @@ versus what a person must do in the GUI.
 Most FEA mistakes are born in pre-processing and hidden by a solver that "ran successfully." This skill makes the
 agent enforce gates instead: it won't trust a single-mesh result, it converges the *quantity of interest* (not a
 singular peak), it checks equilibrium and energy balance, and it labels every run with an **execution mode**
-(SMOKE / DEBUG / ENGINEERING / SIGNOFF) that dictates which gates are mandatory and what may be claimed. Before stating any number the agent runs a **pre-claim self-check**, phrases the result with **claim templates**, and — on load-case / allowable / contact-type / sign-off decisions — **escalates** to a human instead of guessing (`references/claim-templates.md`, `references/escalation-examples.md`). An adversarial **eval set** (`evals/prompts.json`, validated in CI) pins this behavior.
+(SMOKE / DEBUG / ENGINEERING / SIGNOFF) that dictates which gates are mandatory and what may be claimed. Before stating any number the agent runs a **pre-claim self-check**, phrases the result with **claim templates**, and — on load-case / allowable / contact-type / sign-off decisions — **escalates** to a human instead of guessing (`references/claim-templates.md`, `references/escalation-examples.md`). An adversarial **eval set** (`evals/prompts.json`) encodes the expected behavior; CI validates the set's structure and coverage, and `scripts/live_eval.py` runs a live **skill-on vs skill-off A/B** to measure the actual behavior change (see `evals/RESULTS.md`).
 
 ## What's inside
 
@@ -86,9 +87,11 @@ scripts/
   mac.py                          # Modal Assurance Criterion + COMAC (auto/cross-MAC, complex modes, mode pairing)
   hourglass_check.py              # explicit-dynamics energy-quality gate (hourglass % / energy balance / KE-IE)
   run_skill_evals.py              # validate the activation/behavior eval set + score live agent responses
+  live_eval.py                    # optional live A/B harness (skill-on vs skill-off) — measures behavior change
   run_manifest_template.json      # per-solve traceability manifest (NAFEMS R0033)
 evals/
   prompts.json                    # 22 adversarial activation/behavior eval cases (expected refs, mode, refuse/claim/escalate)
+  RESULTS.md                      # measured skill-on vs skill-off A/B results (live behavior-change evidence)
 skills_index.json                 # master machine-readable manifest (router, references, scripts, evals)
 references_index.json             # machine-readable index of references/ (file → title)
 tests/

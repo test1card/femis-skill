@@ -346,9 +346,11 @@ mesh was used and the convergence evidence. [S15][S22]
 
 ## 5A. A-posteriori / recovery-based error estimation (the single-mesh complement to GCI)
 
-GCI (§5) bounds discretization error by **refining the mesh ≥3×**. An **a-posteriori error
-estimator** bounds the error of **one solved mesh** directly from its own fields, and — crucially
-— tells you **where** to refine. The two are complementary, not rival: use an estimator to *target*
+GCI (§5) **estimates** discretization error by **refining the mesh ≥3×** (a conservative band via
+the safety factor F_s, not a guaranteed bound). An **a-posteriori error estimator** **estimates** the
+error of **one solved mesh** directly from its own fields, and — crucially — tells you **where** to
+refine. Treat recovery-based (ZZ/SPR) and goal-oriented (DWR) numbers as *estimates*; only
+residual/equilibrated estimators (§5A.2) carry **proven** upper/lower bounds. The two are complementary, not rival: use an estimator to *target*
 refinement (put DOF where the error is), then use GCI (or a p-extension, §5C) to *certify* the final
 band on the QoI. This is the standard rigorous machinery of computational mechanics and is what the
 "adaptive mesh refinement" button in commercial codes actually runs. [S26][S27][S30]
@@ -390,8 +392,9 @@ and GCI should agree in the asymptotic range — if they disagree, you are not c
 
 The energy-norm error of §5A is rarely what the engineer actually cares about; the **quantity of
 interest** J(u) is — a stress at a point, a reaction, a flux, a drag/lift coefficient, a
-stress-intensity factor. **Goal-oriented error estimation** bounds the error **in J directly**, and
-is the rigorous embodiment of this brief's headline rule, *converge the QoI, not the peak*. [S31][S32]
+stress-intensity factor. **Goal-oriented error estimation** estimates the error **in J directly** (an
+error representation, made a rigorous bound only with equilibrated/residual machinery), and is the
+embodiment of this brief's headline rule, *converge the QoI, not the peak*. [S31][S32]
 
 - **Dual-weighted-residual (DWR).** Solve the original ("primal") problem for u, then solve an
   **adjoint / dual problem** whose load is the functional J — its solution z is the **sensitivity of
