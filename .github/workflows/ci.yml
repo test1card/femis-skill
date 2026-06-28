@@ -138,6 +138,25 @@ jobs:
           except Exception as e:
               errs.append(f'skills_index.json unreadable: {e}')
 
+          # 10) version string consistent across manifest / skill / index / agent metadata
+          fm = skill.split('---', 2)[1] if skill.startswith('---') else ''
+          msk = re.search(r'^\s*version:\s*"?([0-9][\w.\-]*)"?', fm, re.M)
+          yv = None
+          for ln in pathlib.Path('agents/openai.yaml').read_text(encoding='utf-8').splitlines():
+              my = re.match(r'version:\s*"?([0-9][\w.\-]*)"?', ln.strip())
+              if my:
+                  yv = my.group(1)
+                  break
+          versions = {
+              '.claude-plugin/plugin.json': m.get('version'),
+              'skills_index.json': json.load(open('skills_index.json', encoding='utf-8')).get('version'),
+              'SKILL.md': msk.group(1) if msk else None,
+              'agents/openai.yaml': yv,
+          }
+          present = {k: v for k, v in versions.items() if v}
+          if len(set(present.values())) > 1:
+              errs.append(f'version mismatch across files: {present}')
+
           if errs:
               print('HYGIENE / PACKAGING CHECK FAILED:'); [print(' -', e) for e in errs]; sys.exit(1)
           print(f'OK: manifest + internal links + source hygiene + placeholders + caches + TOCs; '
