@@ -1,5 +1,29 @@
 # FEMis — an Agent Skill for FEM/CAE (structural · thermal · CFD · EM · multiphysics, across many solvers)
 
+> **FEMis** is an open-source [Claude Agent Skill](https://code.claude.com/docs/en/skills) for **finite-element
+> analysis (FEA / FEM) and CAE governance**: mesh-independence (GCI), verification & validation (V&V), and a precise
+> headless-vs-human automation contract across **Ansys, Abaqus, MSC / Simcenter Nastran, OpenFOAM, COMSOL, LS-DYNA,
+> Simcenter and Thermal Desktop**. It is a **governance / decision layer, not a solver driver.**
+
+<!-- Machine-readable skill metadata for AI agents and search engines. Canonical manifest: skills_index.json -->
+```yaml
+name: femis
+kind: Claude Agent Skill — CAE/FEM governance & V&V layer
+entrypoint: SKILL.md
+purpose: Turn an AI coding agent into a disciplined FEM/CAE analyst that governs engineering claims.
+when_to_use:
+  - finite-element (FEM / FEA) and CAE analysis; element / solver / unit selection
+  - mesh-independence / Grid Convergence Index (GCI); verification & validation (V&V) and UQ
+  - headless / batch solving; parsing .rst / .rth / .op2 / .f06 results
+  - deciding what an agent may run headless vs what a human must decide or sign off
+not_for: [driving solvers (pair with an executor), pure CAD modeling, closed-form hand calcs]
+pair_with: [PyMAPDL, PyMechanical, PyFluent, Abaqus, OpenFOAM, MSC/Simcenter Nastran, COMSOL, Open FEM Agent, CAE MCP]
+physics: [structural, thermal, CFD, electromagnetics, vibro-acoustics/NVH, multibody, multiphysics, fracture, fatigue, composites, buckling, explicit-dynamics]
+manifests: [skills_index.json, references_index.json, agents/openai.yaml]
+license: Apache-2.0
+repo: https://github.com/test1card/femis-skill
+```
+
 A [Claude Code Agent Skill](https://code.claude.com/docs/en/skills) that turns an AI coding agent into a
 disciplined finite-element analyst. It encodes the full CAE workflow — idealization → meshing → connections →
 solve controls → convergence → mesh independence → V&V — plus the **headless/batch automation and result-parsing
