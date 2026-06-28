@@ -8,6 +8,7 @@
     { "file": "references/buckling-stability.md", "title": "Buckling & structural stability — practitioner-grade best-practices brief", "lines": 165 },
     { "file": "references/cfd.md", "title": "Computational Fluid Dynamics (CFD) — Practitioner Brief", "lines": 1341 },
     { "file": "references/claim-templates.md", "title": "Claim templates — phrase every result at the right altitude", "lines": 59 },
+    { "file": "references/claims-validation.md", "title": "Claims validation — external sources for the router's load-bearing claims", "lines": 115 },
     { "file": "references/composites-analysis.md", "title": "Composite Analysis, Damage & Sandwich/Draping/Environment — Practitioner Brief", "lines": 242 },
     { "file": "references/comsol.md", "title": "COMSOL Multiphysics — automation & recipes", "lines": 70 },
     { "file": "references/coupled-process-simulation.md", "title": "Coupled Multiphysics Process Simulation — Reference", "lines": 696 },

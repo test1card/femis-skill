@@ -11,7 +11,7 @@
     "escalation_examples": "references/escalation-examples.md"
   },
   "references_index": "references_index.json",
-  "reference_count": 32,
+  "reference_count": 33,
   "scripts": [
     { "file": "scripts/gci.py", "summary": "Grid Convergence Index (GCI) — Roache / ASME V&V 20 / Celik et al. 2008." },
     { "file": "scripts/hourglass_check.py", "summary": "Explicit-dynamics energy-quality gate (hourglass / energy balance / KE)." },

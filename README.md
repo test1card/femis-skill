@@ -42,6 +42,7 @@ references/
   # — governance / claim discipline (the moat) —
   claim-templates.md              # per-mode (SMOKE/DEBUG/ENGINEERING/SIGNOFF) result-phrasing templates + reusable contract phrases
   escalation-examples.md          # worked refuse/escalate cases (contact type, single-mesh peak, calibration, sign-off, singularity, ...)
+  claims-validation.md            # external-source validation of the router's load-bearing claims (claim -> standard/textbook -> verdict)
   # — core workflow —
   meshing-convergence.md          # element tech, quality metrics, mesh independence (GCI/ZZ-SPR), p-/hp-refinement, DWR, singularities
   material-modeling.md            # constitutive models (plasticity/creep/hyperelastic/composite/damage), data sources, calibration

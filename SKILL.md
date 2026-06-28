@@ -160,7 +160,7 @@ Linux: `ansysNNN -b`, `nastran`, `abaqus`, `simpleFoam`, `fluent -g`; check `$LM
 `f_exact ≈ f₁+(f₁−f₂)/(rᵖ−1)`; `GCI_fine = Fs·|ε|/(rᵖ−1)`, ε=(f₂−f₁)/f₁, **Fs=1.25** (≥3 grids)/3.0 (2). Asymptotic
 check `GCI₂₃/(rᵖ·GCI₁₂)≈1`. Accept when QoI change <~1–2% and GCI_fine ≤~1–3%. **The closed form above assumes an _equal_ refinement ratio r; for unequal ratios solve the observed order p iteratively (Celik/Roache) — `scripts/gci.py` does this.** Runnable: `scripts/gci.py`. Same for time-step studies. (V&V/UQ depth: `references/vv-uq.md`.)
 
-**Single-mesh alternatives & order-refinement:** recovery-based a-posteriori error estimation (**Zienkiewicz–Zhu / SPR**, effectivity index → 1) bounds error from ONE solve and drives adaptivity; **p-/hp-refinement** raises element order (a fixed-mesh convergence study; **p-refinement is exponential for smooth fields**, and **properly graded hp** — fine low-order at the singularity, high order in the smooth region — recovers exponential rates for isolated singularities); goal-oriented (dual-weighted-residual) control targets the QoI directly. → `references/meshing-convergence.md`.
+**Single-mesh alternatives & order-refinement:** recovery-based a-posteriori error estimation (**Zienkiewicz–Zhu / SPR**, effectivity index → 1) **estimates** error from ONE solve (asymptotically exact, *not* a guaranteed bound) and drives adaptivity; **p-/hp-refinement** raises element order (a fixed-mesh convergence study; **p-refinement is exponential for smooth fields**, and **properly graded hp** — fine low-order at the singularity, high order in the smooth region — recovers exponential rates for isolated singularities); goal-oriented (dual-weighted-residual) control targets the QoI directly. → `references/meshing-convergence.md`.
 
 ## Connections & thermal contact (depth: `references/mechanical-connections.md`, `references/thermal-contact-resistance.md`)
 
@@ -216,7 +216,7 @@ check `GCI₂₃/(rᵖ·GCI₁₂)≈1`. Accept when QoI change <~1–2% and GCI
 
 ## V&V, UQ & governance (depth: `references/vv-uq.md`)
 
-Verification (solving equations right: MMS order test, NAFEMS LE/T benchmarks, GCI) **precedes** validation (right physics vs experiment: ASME V&V 20 `u_val²=u_num²+u_input²+u_D²`, `|E|≤u_val`). **Calibration ≠ validation** (validate on held-out data). **UQ:** aleatory vs epistemic; Morris→Sobol sensitivity; MC/PCE propagation; Bayesian calibration/identifiability; **scale rigor to consequence** (V&V 40). **Model credibility — score it factor-by-factor:** NASA-STD-7009 CAS (8-factor) / Sandia PCMM (6-element), **weakest factor governs**; lifecycle governance via SPDM + NAFEMS QSS/ESQMS; domain margins per the governing standard (e.g. ECSS FoS + model-uncertainty-factor). Report provenance (NAFEMS R0033). → `references/vv-uq.md`.
+Verification (solving equations right: MMS order test, NAFEMS LE/T benchmarks, GCI) **precedes** validation (right physics vs experiment: ASME V&V 20 `u_val²=u_num²+u_input²+u_D²`, `|E|≤u_val` — a *resolution floor* for detecting model error, **not** a binary pass/fail). **Calibration ≠ validation** (validate on held-out data). **UQ:** aleatory vs epistemic; Morris→Sobol sensitivity; MC/PCE propagation; Bayesian calibration/identifiability; **scale rigor to consequence** (V&V 40). **Model credibility — score it factor-by-factor:** NASA-STD-7009 CAS (8-factor, min-rollup → **weakest factor governs**) / Sandia PCMM (6-element; reports min/avg/max — does **not** force a single governing score); lifecycle governance via SPDM + NAFEMS QSS/ESQMS; domain margins per the governing standard (e.g. ECSS FoS + model-uncertainty-factor). Report provenance (NAFEMS R0033). → `references/vv-uq.md`.
 
 ## V&V — sanity gates to run automatically
 
@@ -289,6 +289,7 @@ Ansys headless thermal-contact traps (CONTA174 KEYOPT(1)=0 thermally inert; `-di
 
 - `references/claim-templates.md` — per-mode (SMOKE/DEBUG/ENGINEERING/SIGNOFF) result-phrasing templates + reusable contract phrases (no-autonomous-sign-off, solve-vs-predict, calibration≠validation, singular-peak, solver-flag-certainty).
 - `references/escalation-examples.md` — worked refuse/escalate cases (contact type, single-mesh peak, calibration boundary, surrogate optimum, load basis, sign-off, singularity, solver flags, equilibrium, defeature, non-convergence).
+- `references/claims-validation.md` — external-source validation of the router's load-bearing claims (claim → authoritative standard/textbook/paper → verdict; 53 claims, deep-research traceability appendix).
 - `references/meshing-convergence.md` — element tech, quality metrics, GCI, singularities, stress linearization.
 - `references/material-modeling.md` — constitutive models (elastic/plastic/hyperelastic/visco/creep/damage/composite), data sources, calibration.
 - `references/solver-numerics.md` — equation/eigen solvers, nonlinear, time integration, parallelism, diagnostics.
