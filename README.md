@@ -31,9 +31,8 @@ license: Apache-2.0
 repo: https://github.com/test1card/femis-skill
 ```
 
-An open **Agent Skill** — the `SKILL.md` + `references/` + `scripts/` layout popularised by [Claude Code](https://code.claude.com/docs/en/skills),
-but **not Claude-specific** — that turns an AI coding agent into a disciplined finite-element analyst. It encodes the
-full CAE workflow — idealization → meshing → connections →
+An open **Agent Skill** (`SKILL.md` + `references/` + `scripts/`) that turns an AI coding agent into a disciplined
+finite-element analyst. It encodes the full CAE workflow — idealization → meshing → connections →
 solve controls → convergence → mesh independence → V&V — plus the **headless/batch automation and result-parsing
 gotchas** that usually cost hours to rediscover.
 
@@ -226,8 +225,7 @@ invocation needed.
 
 ## Using with other agents
 
-The Agent Skill format originated with Claude Code, but **nothing here is Claude-specific** — FEMis runs under
-any agent that can read instructions and (optionally) run Python:
+FEMis runs under any agent that can read instructions and (optionally) run Python:
 
 - **`SKILL.md`** is the router / system prompt — plain Markdown. Prepend it to the system prompt or context of
   **OpenAI Codex, opencode, Gemini CLI, GLM / Z.ai, Kimi, Cursor, Continue,** etc.
