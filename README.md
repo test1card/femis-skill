@@ -36,17 +36,18 @@ finite-element analyst. It encodes the full CAE workflow — idealization → me
 solve controls → convergence → mesh independence → V&V — plus the **headless/batch automation and result-parsing
 gotchas** that usually cost hours to rediscover.
 
-Two things set it apart from a textbook: a precise **agent-headless-vs-human contract** (what an automation
-agent may run unattended versus what a person must do in the GUI), and a set of **field-derived,
-confidence-tagged failure-mode recipes** — e.g. headless thermal-contact pitfalls that silently produce wrong
-results — rarely collected in one place. Recipes carry a provenance tag (`[AUTHOR-VERIFIED]` / `[DOCS-ONLY]` /
-`[VERIFIED-web]`) so you can see how far each has been checked.
+Beyond textbook methodology it adds two things. First, a precise **agent-headless-vs-human contract**: what an
+automation agent may run unattended, and what a person still has to do in the GUI. Second, confidence-tagged
+failure-mode recipes — for example, headless thermal-contact settings that pass the solve and return a wrong
+answer. Each recipe carries a provenance tag (`[AUTHOR-VERIFIED]`, `[DOCS-ONLY]`, or `[VERIFIED-web]`) so you can
+see how far it has actually been checked.
 
-**How it fits:** femis is the *methodology / decision layer*, not a solver driver. Pair it with an executor —
-PyMAPDL / PyMechanical / PyFluent, a driver skill, or an Ansys / Abaqus / OpenFOAM MCP server — which femis
-**governs**: it guides and audits the idealization, element, mesh, and connection choices, enforces the execution-mode gates and
-V&V, and tells you (via the headless-vs-human contract) what the executor may run unattended versus what needs a
-person — while **human-judgment choices (load basis, contact type, defeature scope, allowables, and sign-off) remain with a qualified engineer.** It is the brain on top of the hands.
+**How it fits.** femis is the *methodology / decision layer*, not a solver driver. Pair it with an executor (PyMAPDL,
+PyMechanical, PyFluent, a driver skill, or an Ansys / Abaqus / OpenFOAM MCP server). femis governs that executor: it
+guides and audits the idealization, element, mesh, and connection choices, enforces the execution-mode gates and
+V&V, and uses the headless-vs-human contract to separate what the executor may run unattended from what needs a
+person. The judgment calls (load basis, contact type, defeature scope, allowables, sign-off) stay with a qualified
+engineer. It is the brain; the executor is the hands.
 
 It covers **structural / mechanical, thermal, CFD/fluids, electromagnetics, vibro-acoustics/NVH, multibody,
 coupled multiphysics, and the failure & durability disciplines** (fracture, fatigue, composites, buckling,
