@@ -237,9 +237,8 @@ hypothesis and run a SMOKE reproducer first.
 
 ## License
 
-Apache-2.0 — see [LICENSE](LICENSE). (MIT is an equally fine choice if you prefer maximal permissiveness; swap
-the file if so.) Engineering values quoted are textbook orders-of-magnitude; verify against your own materials
-and standards.
+Apache-2.0 — see [LICENSE](LICENSE). Engineering values quoted are textbook orders-of-magnitude; verify against
+your own materials and standards.
 
 ## Contributing
 
