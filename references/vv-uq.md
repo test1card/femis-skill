@@ -132,7 +132,7 @@ The most transferable idea in the family: **"scale the rigor of V&V to the conse
 
 ## 5b. Model-credibility scales — operationalizing "scale rigor to risk"
 
-V&V 40 says scale rigor to consequence; it stops at *principle*. Two standard, mutually consistent **credibility scales** let you turn that principle into a **factor-by-factor score** an analyst reports with the result — the operational bridge from "how trustworthy is this model?" to a defensible, auditable answer. The governing discipline in both: **the reported credibility is limited by the *weakest* factor**, not the average. A brilliant validation hung on anonymous, un-traceable inputs is not a credible result; a single radar/score table that exposes the weak dimension is worth more than any one-word adjective.
+V&V 40 says scale rigor to consequence; it stops at *principle*. Two standard, mutually consistent **credibility scales** let you turn that principle into a **factor-by-factor score** an analyst reports with the result — the operational bridge from "how trustworthy is this model?" to a defensible, auditable answer. The governing discipline in both is to expose each factor explicitly rather than collapse evidence into a vague adjective. **NASA CAS uses a weakest-factor/minimum rollup; Sandia PCMM reports the element scores and summary statistics rather than forcing a single governing score.** A brilliant validation hung on anonymous, un-traceable inputs is not a credible result; a single radar/score table that exposes the weak dimension is worth more than any one-word adjective.
 
 ### NASA-STD-7009 Credibility Assessment Scale (CAS) — 8 factors, levels 0–4
 Rate each factor on **0–4** (low → high), set a **required level per factor from the decision's consequence**, and govern the result by the lowest factor:
@@ -168,7 +168,7 @@ Map the **execution mode** to a **target credibility level** (set the per-factor
 - **ENGINEERING** ≈ mid — verification done, at least sanity-level validation, uncertainty noted; most factors at a moderate, stated level.
 - **SIGNOFF** ≈ high — every factor at its risk-required level, with the **run manifest carrying the CAS/PCMM scores** as part of provenance (§7).
 
-Surfacing the **weakest factor** is the deliverable's most useful single statement. These scores are exactly what a credibility report records, so they slot directly into the manifest/SIGNOFF machinery rather than living in a separate document.
+Surfacing the **weakest factor / weakest element** is the deliverable's most useful single statement even when the method does not formally roll up by the minimum. These scores are exactly what a credibility report records, so they slot directly into the manifest/SIGNOFF machinery rather than living in a separate document.
 
 ---
 

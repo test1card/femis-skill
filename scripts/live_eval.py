@@ -30,7 +30,7 @@ from pathlib import Path
 from run_skill_evals import load_cases, score_response  # same scripts/ dir
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_MODEL = "claude-opus-4-8"  # latest / most capable Claude model
+DEFAULT_MODEL = "claude-opus-4-8"  # default; override with --model
 
 SKILL_ON_PREAMBLE = (
     "You are an AI engineering agent operating UNDER the fem-cae governance skill included "

@@ -1316,11 +1316,10 @@ the SST blending + freestream-sensitivity story across [S11][S12][S6]. Near-wall
 [S13][S6][S9]. CFL/Courant limits across [S19][S20]. DES grid-induced-separation→DDES across [S8].
 GCI/mesh-independence across [S17][S18] (and the meshing brief's primaries Roache/ASME V&V 20).
 FSI added-mass instability per [S22]. Batch-execution syntax is stable documented vendor CLI usage
-[S24][S25][S26][S27][S28]. Where NASA TMR/grc.nasa.gov and several vendor blog hosts were
-network-blocked during this session, the corresponding facts (GCI tutorial, y⁺ first-cell estimate,
-SST/transition papers) are independently corroborated by the indexed CFD-Online/Wikipedia/SimScale/
-OpenFOAM sources and the canonical textbooks Versteeg & Malalasekera [S1] and Pope, "Turbulent
-Flows" (Cambridge, 2000).*
+[S24][S25][S26][S27][S28]. Facts not drawn directly from NASA TMR / grc.nasa.gov or vendor blog hosts
+(GCI tutorial, y⁺ first-cell estimate, SST/transition papers) are independently corroborated by the
+indexed CFD-Online/Wikipedia/SimScale/OpenFOAM sources and the canonical textbooks Versteeg &
+Malalasekera [S1] and Pope, "Turbulent Flows" (Cambridge, 2000).*
 
 *Advanced sections (14–22): multiphase model selection corroborated across Wikipedia multiphase
 [S29], Ansys cavitation/multiphase theory [S30] and the VOF primary [S15]; cavitation Rayleigh–

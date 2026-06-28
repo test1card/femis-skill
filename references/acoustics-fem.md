@@ -1,8 +1,8 @@
 # Acoustics FEM: Ducts/Mufflers, Absorption, Exterior Truncation (IE/PML), Poroelastic Trim, Aeroacoustics, SEA & Hybrid FE-SEA, Transmission Loss, Structural-Acoustic Coupling, and Mistakes
 
-Vendor-neutral reference for CAE/FEM acoustics practitioners. Each section gives concrete methodology, key formulas with numbers, and verified source URLs. Items that could not be cross-verified against at least two authoritative sources are flagged [UNVERIFIED] or [SINGLE-SOURCE].
+Vendor-neutral reference for CAE/FEM acoustics practitioners. Each section gives concrete methodology, key formulas with numbers, and source URLs. Primary authority is textbooks, standards, peer-reviewed papers, and official solver documentation; practitioner pages and encyclopedia-style pages are orientation/corroboration only, not load-bearing authority. Items that could not be cross-verified against at least two authoritative sources are flagged [UNVERIFIED] or [SINGLE-SOURCE].
 
-Sources prioritized: COMSOL Acoustics Module official documentation, Actran/Hexagon documentation, CFDyna practitioner reference (citing A.D. Pierce, Munjal 1987), peer-reviewed papers (Acta Acustica, JASA, JCP), Altair OptiStruct/Acoustic documentation.
+Sources prioritized: COMSOL Acoustics Module official documentation, Actran/Hexagon documentation, peer-reviewed papers (Acta Acustica, JASA, JCP), Altair OptiStruct/Acoustic documentation, and canonical acoustics texts (Pierce, Munjal, Fahy/Gardonio, Lyon/DeJong, Allard/Atalla). CFDyna, HandWiki, Engineering.com, vendor blogs, and ScienceDirect topic pages are retained only as orientation links where a primary source is also named.
 
 ---
 
@@ -52,7 +52,7 @@ Verify this as a sanity check when deriving or importing matrices numerically.
 
 **Validity limit:** TMM assumes 1-D **plane-wave propagation** only. It is accurate **below the cut-on frequency** (see Section 2) where only the plane wave mode propagates. Above cut-on, higher-order 3-D modes appear and TMM breaks down — switch to FEM/BEM.
 
-Source: CFDyna aeroacoustics reference (citing A.D. Pierce: *Acoustics – An Introduction to its Physical Principles and Applications*) — https://www.cfdyna.com/Home/AeroAcoustics.html
+Authority: Pierce, *Acoustics – An Introduction to its Physical Principles and Applications*, and Munjal, *Acoustics of Ducts and Mufflers*. Orientation link only: CFDyna aeroacoustics reference — https://www.cfdyna.com/Home/AeroAcoustics.html
 
 ### Transfer matrices for standard elements
 
@@ -96,7 +96,7 @@ TL = 20 · log₁₀ [ |T₁₁ + T₁₂·A₁/(ρc) + ρc·T₂₁/A₁ + T₂
 ```
 
 Sources:
-- CFDyna practitioner reference (citing Munjal 1987, Pierce): https://www.cfdyna.com/Home/AeroAcoustics.html
+- Munjal, *Acoustics of Ducts and Mufflers*, and Pierce, *Acoustics*. Orientation link: CFDyna practitioner reference: https://www.cfdyna.com/Home/AeroAcoustics.html
 - Muffler transmission loss by the transfer-matrix method — Gerges et al., *J. Braz. Soc. Mech. Sci. Eng.* 27:132–140 (2005): https://doi.org/10.1590/S1678-58782005000200005
 - Wiley Online Library, "Theoretical and Experimental Study on the Transmission Loss of a Side Outlet Muffler": https://onlinelibrary.wiley.com/doi/10.1155/2020/6927574
 
@@ -112,7 +112,7 @@ Sources:
 
 **Perforated tubes/resonators:** Extended TMM adds transfer impedance across the perforated wall as an additional term coupling the inner and outer channels — commonly used for catalytic converters and diesel particulate filter mufflers. See Munjal (1987) for formulations; FEM becomes the preferred tool when the perforation geometry is irregular.
 
-Source (Munjal reference in CFDyna): https://www.cfdyna.com/Home/AeroAcoustics.html
+Authority: Munjal, *Acoustics of Ducts and Mufflers*. Orientation link only: https://www.cfdyna.com/Home/AeroAcoustics.html
 
 ---
 
@@ -272,8 +272,9 @@ r = R · (1 + η) / (1 − η)    →    η = 1 is r = ∞
 **Actran note:** Actran was built from the ground up using IE as the primary non-reflecting BC, replacing BEM for exterior radiation. It uses *conjugated* infinite elements (Coyette & Van den Nieuwenhof, 2000, *JASA* 108(4):1464–1473).
 
 Sources:
-- HandWiki Software:Actran (full reference list with DOIs): https://handwiki.org/wiki/Software:Actran
-- Engineering.com Actran overview: https://www.engineering.com/actran-for-acoustic-radiation-designs/
+- Coyette & Van den Nieuwenhof (2000), *JASA* 108(4):1464-1473, and Actran/Hexagon documentation for infinite-element implementation.
+- Orientation only: HandWiki Software:Actran (reference list with DOIs): https://handwiki.org/wiki/Software:Actran
+- Orientation only: Engineering.com Actran overview: https://www.engineering.com/actran-for-acoustic-radiation-designs/
 
 ### Perfectly Matched Layer (PML)
 
@@ -381,7 +382,7 @@ For cylinders in a crossflow, the dominant radiation direction is **perpendicula
 
 **Aeroacoustic source models:** Lighthill's analogy and the Ffowcs Williams–Hawkings (FW-H) extension are the foundation for all flow-noise prediction. They are developed in full — with the scaling laws, surface-vs-permeable FW-H surface choice, hybrid-CAA workflow, and RANS broadband screening — in **§8 (Aeroacoustics) below**, which is the authoritative home for the acoustic-propagation side. (The unsteady CFD that supplies the source data is described in `cfd.md`.)
 
-Source: CFDyna aeroacoustics page (Lighthill section): https://www.cfdyna.com/Home/AeroAcoustics.html
+Authority: Lighthill (1952), Curle (1955), and Ffowcs Williams-Hawkings (1969). Orientation link only: CFDyna aeroacoustics page (Lighthill section): https://www.cfdyna.com/Home/AeroAcoustics.html
 
 ---
 
@@ -929,28 +930,29 @@ Sources:
 ## Sources Summary (all topics)
 
 **Duct acoustics / TMM / muffler:**
-- CFDyna aeroacoustics reference (A.D. Pierce, Munjal 1987): https://www.cfdyna.com/Home/AeroAcoustics.html
+- Pierce, *Acoustics*, and Munjal, *Acoustics of Ducts and Mufflers*. Orientation link: CFDyna aeroacoustics reference: https://www.cfdyna.com/Home/AeroAcoustics.html
 - Wiley Shock and Vibration, side-outlet muffler TL (2020): https://onlinelibrary.wiley.com/doi/10.1155/2020/6927574
 - Single-chamber muffler transfer-matrix modeling — Gerges et al., *J. Braz. Soc. Mech. Sci. Eng.* 27:132–140 (2005): https://doi.org/10.1590/S1678-58782005000200005
 - IJERA, single expansion chamber TMM: https://www.ijera.com/papers/Vol2_issue1/DA21651658.pdf
 
 **Cut-on frequencies:**
-- CFDyna (Pierce): https://www.cfdyna.com/Home/AeroAcoustics.html
+- Pierce, *Acoustics*. Orientation link: CFDyna: https://www.cfdyna.com/Home/AeroAcoustics.html
 - Acta Acustica, Ford et al. (2023): https://acta-acustica.edpsciences.org/articles/aacus/full_html/2023/01/aacus220052/aacus220052.html
 - MDPI Applied Sciences, rectangular duct: https://www.mdpi.com/2076-3417/12/11/5307
 
 **PML / Infinite Elements:**
 - COMSOL 6.3 official PML documentation: https://doc.comsol.com/6.3/doc/com.comsol.help.aco/aco_ug_pressure.05.139.html
 - Altair OptiStruct 2025 APML documentation: https://2025.help.altair.com/2025.1/hwsolvers/os/topics/solvers/os/analysis_acoustic_apml_c.htm
-- Actran history / Astley IE references (HandWiki): https://handwiki.org/wiki/Software:Actran
-- Actran capabilities overview (Engineering.com): https://www.engineering.com/actran-for-acoustic-radiation-designs/
-- Actran GSAS blog: https://gsasindia.com/blog/hexagon-actran-acoustic-simulation-india
+- Actran/Hexagon documentation and Astley/Coyette infinite-element literature.
+- Orientation only: Actran history / Astley IE references (HandWiki): https://handwiki.org/wiki/Software:Actran
+- Orientation only: Actran capabilities overview (Engineering.com): https://www.engineering.com/actran-for-acoustic-radiation-designs/
+- Orientation only: Actran GSAS blog: https://gsasindia.com/blog/hexagon-actran-acoustic-simulation-india
 - Wiley NME, automatic PML (Bériot & Modave 2021): https://onlinelibrary.wiley.com/doi/full/10.1002/nme.6560
 - JCP, PML for fast frequency sweeps (2019): https://dl.acm.org/doi/10.1016/j.jcp.2019.108878
 - Acta Acustica, PU-FEM with PML (2020): https://acta-acustica.edpsciences.org/articles/aacus/full_html/2020/04/aacus200026/aacus200026.html
 
 **Absorption / room acoustics:**
-- ScienceDirect, Sabine equation overview: https://www.sciencedirect.com/topics/engineering/sabine-equation
+- Sabine / room-acoustics textbook treatments. Orientation only: ScienceDirect Sabine equation overview: https://www.sciencedirect.com/topics/engineering/sabine-equation
 - Acousticlab, reverberation time: https://www.acousticlab.com/en/reverberation-time-and-sabines-formula/
 - ScienceDirect, time-domain FEM with absorbing BCs: https://www.sciencedirect.com/science/article/abs/pii/S0003682X21003066
 - NASA NTRS, impedance tube measurement: https://ntrs.nasa.gov/api/citations/20150023091/downloads/20150023091.pdf
@@ -958,7 +960,7 @@ Sources:
 **Aeolian tones / aeroacoustics:**
 - Springer Experiments in Fluids (2020): https://link.springer.com/article/10.1007/s00348-020-02972-0
 - MDPI Aerospace (2025): https://www.mdpi.com/2226-4310/13/4/321
-- CFDyna aeroacoustics / Lighthill: https://www.cfdyna.com/Home/AeroAcoustics.html
+- Lighthill (1952), Curle (1955), Ffowcs Williams-Hawkings (1969). Orientation link: CFDyna aeroacoustics / Lighthill: https://www.cfdyna.com/Home/AeroAcoustics.html
 
 **Poroelastic / sound-package (trim):**
 - Allard & Atalla, *Propagation of Sound in Porous Media*, 2nd ed., Wiley (2009).
@@ -983,7 +985,7 @@ Sources:
 - Ansys / Simcenter Nastran coupled-acoustic (SOL 108/111, ACMODL); COMSOL Acoustic-Structure Interaction & TL tutorials.
 
 **Acoustics FEM best practices / mesh / mistakes:**
-- COMSOL Blog, automate meshing for acoustics: https://www.comsol.com/blogs/how-to-automate-meshing-in-frequency-bands-for-acoustic-simulations
+- COMSOL Acoustics documentation and COMSOL Blog, automate meshing for acoustics: https://www.comsol.com/blogs/how-to-automate-meshing-in-frequency-bands-for-acoustic-simulations
 - "More Than Six Elements Per Wavelength" — Langer, Maeder et al., *J. Comput. Acoust.* 25(4):1750025 (2017): https://doi.org/10.1142/S0218396X17500254
 - Marburg, "Six boundary elements per wavelength: Is that enough?" — *J. Comput. Acoust.* 10(1):25–51 (2002): https://doi.org/10.1142/S0218396X02001401
 - Ansys FLUID elements reference: https://www.mm.bme.hu/~gyebro/files/ans_help_v182/ans_elem/elem_acouselems.html

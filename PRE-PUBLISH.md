@@ -1,7 +1,8 @@
 # Pre-Publish Checklist
 
-This skill is **release-ready in content**, but a few host-specific fields are intentionally left blank
-until a Git remote exists — rather than ship placeholder URLs. Complete these before publishing publicly.
+This skill's **content is a release candidate**, but a few host-specific fields are intentionally left blank
+until a Git remote exists — rather than ship placeholder URLs. The repo is **not** publish-ready until every
+box below is checked. Complete these before publishing publicly.
 A CI job (`pre-publish-check`) scans for the `<owner>` token below so none of this is missed.
 
 ## 1. Repository identity
@@ -24,5 +25,6 @@ A CI job (`pre-publish-check`) scans for the `<owner>` token below so none of th
 - [ ] Tag the release (e.g. `v1.0.0`) so an analysis can pin a fixed methodology revision.
 
 ## 4. Final gate
-- [ ] CI green: `pytest`, leak scan, link check, placeholder/cache scan, and `claude plugin validate`.
+- [ ] CI green: `pytest`, leak scan, **internal**-link & banned-domain check, placeholder/cache scan, and `claude plugin validate`.
+- [ ] **External URL health** (not covered by CI): run a link checker (e.g. `lychee`/`markdown-link-check` over `references/`) — CI validates *internal* links and banned domains only, not whether external URLs still resolve.
 - [ ] `<owner>` appears **only** in this file — confirm it is nowhere in the shipped tree.

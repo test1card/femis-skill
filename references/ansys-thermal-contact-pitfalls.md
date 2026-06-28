@@ -1,7 +1,9 @@
 # Ansys Mechanical — Headless Fix for Thermally-Inert Structural Contacts (CONTA174)
 
 > **STATUS LEGEND (applies throughout the skill — tag every recipe at point of use):**
-> **[VERIFIED]** = reproduced on a representative test model.
+> **[VERIFIED]** = **author-verified** — reproduced on a representative test model by the authors.
+> Sanitized reproducer decks/logs are **not** shipped with the skill, so confirm once on your own licensed
+> install before relying on it as ground truth for ENGINEERING/SIGNOFF.
 > **[DOCS-ONLY — not executed]** = plausible from documentation, NOT yet run on a model — confirm once on the
 > real model before trusting it as ground truth. Never let a DOCS-ONLY recipe carry the same authority as a
 > VERIFIED one.
