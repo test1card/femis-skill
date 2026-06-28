@@ -96,8 +96,10 @@ def score_response(case: dict, response_text: str) -> dict:
     behavior = case["expect_behavior"]
     diagnose_markers = ("because", "cause", "likely", "check", "mismatch", "wrong",
                         "units", "density", "off by", "factor of", "suspect", "root")
-    if behavior in ("refuse", "escalate"):
-        behavior_ok = any(m in low for m in refuse_markers + escalate_markers)
+    if behavior == "refuse":
+        behavior_ok = any(m in low for m in refuse_markers)
+    elif behavior == "escalate":
+        behavior_ok = any(m in low for m in escalate_markers)
     elif behavior == "claim":
         # a real claim names a mode AND states a number/QoI — not just prose
         behavior_ok = ((case["expect_mode"] != "n/a" and mode_ok)
@@ -110,7 +112,7 @@ def score_response(case: dict, response_text: str) -> dict:
     refs_ok = (not case.get("expect_refs")) or bool(refs_hit)
     scripts_ok = (not case.get("expect_scripts")) or bool(scripts_hit)
     need = case.get("must_mention", [])
-    mentions_ok = (not need) or len(mentions_hit) >= max(1, len(need) // 2)
+    mentions_ok = (not need) or len(mentions_hit) == len(need)  # require ALL must_mention, not half
     overall = refs_ok and scripts_ok and mode_ok and behavior_ok and mentions_ok
     return {
         "id": case["id"],

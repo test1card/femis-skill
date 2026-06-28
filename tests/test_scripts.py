@@ -346,6 +346,31 @@ def test_comac_flags_inconsistent_dof():
     assert c[2] < 0.99  # the low-amplitude DOF is flagged
 
 
+def test_comac_signed_detects_inconsistent_sign_flip():
+    # DOF 1 is flipped in mode 2 only: signed COMAC cancels (~0); the classic
+    # amplitude COMAC is blind (1.0). This is the reviewer's sign/phase regression.
+    A = [[1.0, 1.0], [1.0, 1.0]]
+    B = [[1.0, 1.0], [1.0, -1.0]]
+    assert mac.comac(A, B)[1] < 1e-9
+    assert mac.amplitude_comac(A, B)[1] == pytest.approx(1.0, abs=1e-12)
+    assert mac.comac(A, B)[0] == pytest.approx(1.0, abs=1e-12)
+
+
+def test_coordinate_sign_flips_catches_reversed_dof():
+    # DOF 1 consistently reversed across every mode: squared COMAC is blind (1.0),
+    # the sign-flip helper catches it.
+    A = [[1.0, 1.0], [1.0, 1.0]]
+    B = [[1.0, -1.0], [1.0, -1.0]]
+    assert mac.comac(A, B)[1] == pytest.approx(1.0, abs=1e-12)
+    assert mac.coordinate_sign_flips(A, B) == [1]
+    assert mac.coordinate_sign_flips(A, A) == []
+
+
+def test_amplitude_comac_identical_all_one():
+    A = [[1.0, 2.0, 3.0], [0.5, 1.0, 1.5]]
+    assert all(c == pytest.approx(1.0, abs=1e-12) for c in mac.amplitude_comac(A, A))
+
+
 def test_mac_length_mismatch_raises():
     with pytest.raises(ValueError):
         mac.mac([1.0, 2.0], [1.0, 2.0, 3.0])

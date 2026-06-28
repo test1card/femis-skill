@@ -169,6 +169,6 @@ jobs:
             echo "claude CLI present — running the authoritative validator:"
             claude plugin validate .claude-plugin/plugin.json
           else
-            echo "claude CLI not on PATH — relying on the Python manifest checks above as the FALLBACK."
-            echo "(Install the Claude CLI in CI to run the authoritative 'claude plugin validate'.)"
+            echo "claude CLI not on PATH — the Python manifest checks above ARE the CI gate (authoritative in CI)."
+            echo "Run 'claude plugin validate' locally as the pre-publish release gate — see PRE-PUBLISH.md."
           fi

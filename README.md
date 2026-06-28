@@ -1,14 +1,21 @@
 # FEMis — an Agent Skill for FEM/CAE (structural · thermal · CFD · EM · multiphysics, across many solvers)
 
-> **FEMis** is an open-source [Claude Agent Skill](https://code.claude.com/docs/en/skills) for **finite-element
-> analysis (FEA / FEM) and CAE governance**: mesh-independence (GCI), verification & validation (V&V), and a precise
-> headless-vs-human automation contract across **Ansys, Abaqus, MSC / Simcenter Nastran, OpenFOAM, COMSOL, LS-DYNA,
-> Simcenter and Thermal Desktop**. It is a **governance / decision layer, not a solver driver.**
+> **FEMis** is an open-source, **agent-agnostic Agent Skill** for **finite-element analysis (FEA / FEM) and CAE
+> governance**: mesh-independence (GCI), verification & validation (V&V), and a precise headless-vs-human automation
+> contract across **Ansys, Abaqus, MSC / Simcenter Nastran, OpenFOAM, COMSOL, LS-DYNA, Simcenter and Thermal Desktop**.
+> It is a **governance / decision layer, not a solver driver**. The entrypoint `SKILL.md` is plain instruction text and
+> the calculators are dependency-free Python, so it runs under **Claude Code, OpenAI Codex, opencode, Gemini CLI,
+> GLM / Z.ai, Kimi** and any agent that can load a system prompt — see [Using with other agents](#using-with-other-agents).
+
+**The name.** *FEMis* = **FEM** (finite-element method) + **Themis** (Greek Θέμις), the goddess of justice who holds
+the scales. Fitting for a skill that weighs the evidence before any engineering claim and refuses to let one cross
+into **sign-off** without it.
 
 <!-- Machine-readable skill metadata for AI agents and search engines. Canonical manifest: skills_index.json -->
 ```yaml
 name: femis
-kind: Claude Agent Skill — CAE/FEM governance & V&V layer
+kind: Agent Skill — CAE/FEM governance & V&V layer (agent-agnostic)
+compatible_agents: [Claude Code, OpenAI Codex, opencode, Gemini CLI, GLM/Z.ai, Kimi, any LLM agent that loads instructions]
 entrypoint: SKILL.md
 purpose: Turn an AI coding agent into a disciplined FEM/CAE analyst that governs engineering claims.
 when_to_use:
@@ -24,8 +31,9 @@ license: Apache-2.0
 repo: https://github.com/test1card/femis-skill
 ```
 
-A [Claude Code Agent Skill](https://code.claude.com/docs/en/skills) that turns an AI coding agent into a
-disciplined finite-element analyst. It encodes the full CAE workflow — idealization → meshing → connections →
+An open **Agent Skill** — the `SKILL.md` + `references/` + `scripts/` layout popularised by [Claude Code](https://code.claude.com/docs/en/skills),
+but **not Claude-specific** — that turns an AI coding agent into a disciplined finite-element analyst. It encodes the
+full CAE workflow — idealization → meshing → connections →
 solve controls → convergence → mesh independence → V&V — plus the **headless/batch automation and result-parsing
 gotchas** that usually cost hours to rediscover.
 
@@ -119,7 +127,7 @@ evals/
 skills_index.json                 # master machine-readable manifest (router, references, scripts, evals)
 references_index.json             # machine-readable index of references/ (file → title)
 tests/
-  test_scripts.py                 # 56 pytest checks across the 6 calculator scripts (known-good values + error paths)
+  test_scripts.py                 # 59 pytest checks across the 6 calculator scripts (known-good values + error paths)
 .github/workflows/
   ci.yml                          # CI: pytest + script self-tests + eval-set validation + source-hygiene gate (placeholders/caches/links/banned-domains/TOCs), Python 3.10-3.13
 ```
@@ -127,7 +135,7 @@ tests/
 Progressive disclosure: `SKILL.md` stays lean (a routing layer); the agent loads a `references/` file only when
 that topic is in play.
 
-The `scripts/` are covered by a `pytest` suite (`tests/test_scripts.py`, 56 checks) run in CI across Python
+The `scripts/` are covered by a `pytest` suite (`tests/test_scripts.py`, 59 checks) run in CI across Python
 3.10–3.13 — so the runnable calculators stay correct, not just illustrative.
 
 ## Recommended Agentic CAE Workflow
@@ -215,6 +223,23 @@ invocation needed.
 > Layout note: a bare skill is just the `femis/` folder (with `SKILL.md` at its root) dropped into a
 > `skills/` directory. To distribute it as an installable Claude Code **plugin** (`/plugin` + a marketplace
 > listing), wrap it with a `.claude-plugin/plugin.json`.
+
+## Using with other agents
+
+The Agent Skill format originated with Claude Code, but **nothing here is Claude-specific** — FEMis runs under
+any agent that can read instructions and (optionally) run Python:
+
+- **`SKILL.md`** is the router / system prompt — plain Markdown. Prepend it to the system prompt or context of
+  **OpenAI Codex, opencode, Gemini CLI, GLM / Z.ai, Kimi, Cursor, Continue,** etc.
+- **`references/`** load on demand — have the agent open the file `SKILL.md` names for a topic; `references_index.json`
+  lists every file + title for programmatic lookup.
+- **`scripts/`** are dependency-free **Python 3.10+ stdlib** calculators (GCI, y+, units, rainflow, MAC/COMAC,
+  hourglass) — call them from any tool, no SDK required.
+- **`agents/openai.yaml`** mirrors the `SKILL.md` frontmatter for OpenAI Codex-style hosts; **`skills_index.json`**
+  is the canonical machine-readable manifest for discovery.
+
+The Claude Code plugin packaging (`.claude-plugin/plugin.json`, `/plugin` install) is just one convenience
+wrapper — not a requirement.
 
 ## Scope
 

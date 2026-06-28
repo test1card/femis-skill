@@ -20,13 +20,21 @@ agreement, not frequency or modal mass. Standard uses:
 COMPLEX mode shapes (from damped / gyroscopic / FRF-derived analyses) as well as
 real (normal) modes; for real input it reduces exactly to the real MAC.
 
-**COMAC (Coordinate MAC)** is the per-DOF companion (Lieven & Ewins): across a
-set of already-correlated mode PAIRS it returns one value per coordinate, low
-where the two models disagree spatially -- it localises WHERE the mismatch is,
-which MAC (a per-mode scalar) cannot. Like MAC, the canonical Lieven & Ewins COMAC
-sums per-pair |conj(A_k)*B_k| magnitudes, so it is amplitude/sign-insensitive by
-construction: it flags amplitude-ratio inconsistency across mode pairs, NOT a pure
-sign/phase flip at a DOF.
+**COMAC (Coordinate MAC)** is the per-DOF companion: across a set of already-correlated
+mode PAIRS it returns one value per coordinate, low where the two models disagree -- it
+localises WHERE the mismatch is, which MAC (a per-mode scalar) cannot. Two variants ship:
+  * `comac()` (default, **signed / phase-aware**):
+      COMAC(k) = |sum_k conj(A_k)*B_k|^2 / (sum|A_k|^2 * sum|B_k|^2).
+    The per-coordinate correlation is summed *with sign* before squaring, so it drops at a
+    DOF whose sign/phase is INCONSISTENT across the mode pairs -- the diagnostic most people
+    mean by "coordinate-level correlation."
+  * `amplitude_comac()`: the classic Lieven & Ewins form, sum_k |conj(A_k)*B_k| then squared
+    -- amplitude-only, sign-robust; flags amplitude-ratio inconsistency but is blind to a
+    sign/phase flip.
+**Known limit of *both* (squared, sign-normalised) COMACs:** a coordinate that is
+*consistently* sign-reversed across every mode (a reversed sensor / flipped local DOF) still
+reads ~1.0 -- squaring normalises out the global sign. Use `coordinate_sign_flips()` to catch
+that case (it flags DOFs whose summed real correlation is negative).
 
 The vectors must be sampled at the SAME, consistently ORDERED degrees of freedom
 (reduce/expand the FE shape to the measured DOFs first). Stdlib only; vectors are
@@ -80,21 +88,8 @@ def mac_matrix(set_A: Sequence[Sequence[Number]],
     return [[mac(a, b) for b in set_B] for a in set_A]
 
 
-def comac(set_A: Sequence[Sequence[Number]],
-          set_B: Sequence[Sequence[Number]],
-          pairs: Optional[Sequence[Tuple[int, int]]] = None) -> List[float]:
-    """Coordinate MAC: one value per DOF, in [0, 1], across matched mode pairs.
-
-        COMAC(k) = (sum_pairs |conj(A_k) * B_k|)^2
-                   / (sum_pairs |A_k|^2 * sum_pairs |B_k|^2)
-
-    set_A, set_B : lists of mode-shape vectors, SAME DOF count & ordering.
-    pairs        : list of (iA, iB) correlated mode-index pairs; default pairs
-                   them on the diagonal (0,0),(1,1),... over the shorter set.
-    Returns a list of length = number of DOFs. A LOW value at DOF k flags the
-    coordinate where the two models disagree most (e.g. a missing local stiffener
-    or a bad sensor). Complex shapes supported.
-    """
+def _comac_setup(set_A, set_B, pairs):
+    """Shared validation + default diagonal pairing for the COMAC helpers."""
     if not set_A or not set_B:
         raise ValueError("both mode sets must be non-empty")
     ndof = len(set_A[0])
@@ -103,7 +98,61 @@ def comac(set_A: Sequence[Sequence[Number]],
             raise ValueError("all mode shapes must have the same DOF count")
     if pairs is None:
         pairs = [(i, i) for i in range(min(len(set_A), len(set_B)))]
+    return ndof, pairs
 
+
+def comac(set_A: Sequence[Sequence[Number]],
+          set_B: Sequence[Sequence[Number]],
+          pairs: Optional[Sequence[Tuple[int, int]]] = None) -> List[float]:
+    """Coordinate MAC -- SIGNED / phase-aware (default). One value per DOF, in [0, 1].
+
+        COMAC(k) = |sum_pairs conj(A_k) * B_k|^2
+                   / (sum_pairs |A_k|^2 * sum_pairs |B_k|^2)
+
+    The per-coordinate correlation is summed WITH sign/phase before squaring, so COMAC(k)
+    drops where the two models disagree -- including a sign/phase flip that is INCONSISTENT
+    across the matched mode pairs. A LOW value localises the DOF where they disagree (missing
+    local stiffener, bad sensor, ...). Real or complex shapes.
+
+    set_A, set_B : lists of mode-shape vectors, SAME DOF count & ordering.
+    pairs        : list of (iA, iB) correlated mode-index pairs; default = diagonal
+                   (0,0),(1,1),... over the shorter set.
+
+    NOTE: like any squared COMAC this normalises out *global* sign, so a coordinate that is
+    CONSISTENTLY reversed across every mode still reads ~1.0 -- use `coordinate_sign_flips()`
+    for that. See `amplitude_comac()` for the classic (sign-robust) Lieven & Ewins variant.
+    """
+    ndof, pairs = _comac_setup(set_A, set_B, pairs)
+    out: List[float] = []
+    for k in range(ndof):
+        s_ab: complex = 0j
+        s_aa = 0.0
+        s_bb = 0.0
+        for ia, ib in pairs:
+            ak = set_A[ia][k]
+            bk = set_B[ib][k]
+            akc = ak.conjugate() if isinstance(ak, complex) else ak
+            s_ab += akc * bk
+            s_aa += abs(ak) ** 2
+            s_bb += abs(bk) ** 2
+        denom = s_aa * s_bb
+        out.append(0.0 if denom == 0.0 else (abs(s_ab) ** 2) / denom)
+    return out
+
+
+def amplitude_comac(set_A: Sequence[Sequence[Number]],
+                    set_B: Sequence[Sequence[Number]],
+                    pairs: Optional[Sequence[Tuple[int, int]]] = None) -> List[float]:
+    """Classic Lieven & Ewins COMAC -- AMPLITUDE-only, sign-robust. One value per DOF.
+
+        COMAC(k) = (sum_pairs |conj(A_k) * B_k|)^2
+                   / (sum_pairs |A_k|^2 * sum_pairs |B_k|^2)
+
+    Magnitudes are summed per pair, so this flags amplitude-ratio inconsistency across mode
+    pairs but is BLIND to any sign/phase flip at a DOF. Prefer `comac()` unless you
+    specifically want the sign-insensitive original.
+    """
+    ndof, pairs = _comac_setup(set_A, set_B, pairs)
     out: List[float] = []
     for k in range(ndof):
         s_ab = 0.0
@@ -119,6 +168,31 @@ def comac(set_A: Sequence[Sequence[Number]],
         denom = s_aa * s_bb
         out.append(0.0 if denom == 0.0 else (s_ab ** 2) / denom)
     return out
+
+
+def coordinate_sign_flips(set_A: Sequence[Sequence[Number]],
+                          set_B: Sequence[Sequence[Number]],
+                          pairs: Optional[Sequence[Tuple[int, int]]] = None) -> List[int]:
+    """DOF indices that are CONSISTENTLY sign/phase-reversed between the two sets.
+
+    For each DOF k it sums the per-pair correlation s_k = sum_pairs conj(A_k)*B_k; a
+    NEGATIVE real part means the coordinate points the opposite way in B vs A across the
+    matched modes -- a reversed sensor / flipped local DOF. This is the one defect a squared
+    COMAC (signed or amplitude) is mathematically blind to, because squaring normalises out
+    global sign. Returns the sorted list of offending DOF indices (empty if none).
+    """
+    ndof, pairs = _comac_setup(set_A, set_B, pairs)
+    flips: List[int] = []
+    for k in range(ndof):
+        s: complex = 0j
+        for ia, ib in pairs:
+            ak = set_A[ia][k]
+            bk = set_B[ib][k]
+            akc = ak.conjugate() if isinstance(ak, complex) else ak
+            s += akc * bk
+        if _as_real(s) < -1e-12:
+            flips.append(k)
+    return flips
 
 
 def _selftest() -> None:
@@ -169,18 +243,30 @@ def _selftest() -> None:
     assert abs(mac([1 + 0j, 0 + 0j], [0 + 0j, 1 + 2j])) < 1e-12
     print(f"mac(complex scaled) = {mac(ca, cb):.6f}  (complex/Hermitian correct)")
 
-    # --- COMAC: identical sets -> 1.0 at every DOF; a DOF the two sets disagree
-    #     on -> low COMAC there, ~1 elsewhere. ---
+    # --- COMAC (signed, default): identical sets -> 1.0 at every DOF; a DOF the two
+    #     sets disagree on -> low COMAC there, ~1 elsewhere. ---
     A = [[1.0, 1.0, 1.0], [1.0, 1.0, 1.0]]
     assert all(abs(c - 1.0) < 1e-12 for c in comac(A, A)), comac(A, A)
-    # COMAC is sign/scale-insensitive per DOF (it uses |A_k*B_k|); it flags a DOF
-    # whose AMPLITUDE ratio is INCONSISTENT across mode pairs. Here DOF 2 loses
-    # amplitude in mode 2 of model B only -> COMAC(2) drops, others stay ~1.
-    B = [[1.0, 1.0, 1.0], [1.0, 1.0, 0.0]]
+    B = [[1.0, 1.0, 1.0], [1.0, 1.0, 0.0]]      # DOF 2 loses amplitude in mode 2 of B
     c = comac(A, B)
     assert abs(c[0] - 1.0) < 1e-12 and abs(c[1] - 1.0) < 1e-12, c
-    assert c[2] < 0.99, c                       # DOF 2 flagged as the mismatch
+    assert c[2] < 0.99, c                        # DOF 2 flagged as the mismatch
     print(f"COMAC(A vs B)       = [{', '.join(f'{v:.3f}' for v in c)}]  (DOF 2 flagged)")
+
+    # signed COMAC catches an INCONSISTENT sign flip that amplitude COMAC misses:
+    As = [[1.0, 1.0], [1.0, 1.0]]
+    Bs = [[1.0, 1.0], [1.0, -1.0]]              # DOF 1 flipped in mode 2 only
+    assert comac(As, Bs)[1] < 1e-9, comac(As, Bs)            # signed -> ~0 (cancels)
+    assert abs(amplitude_comac(As, Bs)[1] - 1.0) < 1e-12     # amplitude -> blind, 1.0
+    print(f"signed COMAC(flip)  = {comac(As, Bs)[1]:.3f}   "
+          f"amplitude COMAC = {amplitude_comac(As, Bs)[1]:.3f}")
+
+    # a CONSISTENTLY reversed coordinate is invisible to squared COMAC -> sign helper:
+    Br = [[1.0, -1.0], [1.0, -1.0]]             # DOF 1 reversed in EVERY mode
+    assert abs(comac(As, Br)[1] - 1.0) < 1e-12, comac(As, Br)   # COMAC blind -> 1.0
+    assert coordinate_sign_flips(As, Br) == [1], coordinate_sign_flips(As, Br)
+    assert coordinate_sign_flips(As, As) == []
+    print(f"coordinate_sign_flips(reversed DOF 1) = {coordinate_sign_flips(As, Br)}")
 
     print("OK: self-test passed.")
 

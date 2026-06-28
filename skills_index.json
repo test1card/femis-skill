@@ -23,5 +23,5 @@
     { "file": "scripts/yplus.py", "summary": "y+ first-cell-height estimator for wall-bounded CFD meshing." }
   ],
   "evals": { "file": "evals/prompts.json", "cases": 22, "runner": "scripts/run_skill_evals.py" },
-  "tests": { "file": "tests/test_scripts.py", "checks": 56 }
+  "tests": { "file": "tests/test_scripts.py", "checks": 59 }
 }
