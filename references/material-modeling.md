@@ -58,7 +58,7 @@ There is no unit system inside an FE solver — it trusts your numbers. Mixing u
 ### Rate-dependent plasticity (impact, forming, blast, high strain rate)
 - **Johnson-Cook** — the workhorse for metals at high rate/temperature:
   σ = (A + B·εⁿ)·(1 + C·ln(ε̇*))·(1 − T*ᵐ), with ε̇* = ε̇/ε̇₀ and T* = (T−T_room)/(T_melt−T_room).
-  - **A** = yield stress, **B** = hardening modulus, **n** = hardening exponent, **C** = strain-rate sensitivity, **m** = thermal-softening exponent. (Example, a mild steel: A≈220 MPa, B≈620 MPa, n≈0.12, C≈0.010, m≈1.0.)
+  - **A** = yield stress, **B** = hardening modulus, **n** = hardening exponent, **C** = strain-rate sensitivity, **m** = thermal-softening exponent. (*Illustrative* order-of-magnitude only for a mild steel — A≈220 MPa, B≈620 MPa, n≈0.12, C≈0.010, m≈1.0; **not calibration data** — fit per alloy.)
   - Calibrate A,B,n from a quasi-static true curve; C from tests at several strain rates (e.g. split-Hopkinson bar); m from elevated-temperature tests; ε̇₀ is the reference rate you fitted at.
 - **Cowper-Symonds** — simpler rate scaling σ_dyn/σ_static = 1 + (ε̇/D)^(1/q); common in crash (steel D≈40 s⁻¹, q≈5 are textbook starting values — *verify per alloy*).
 - **Perzyna / Peric** — overstress viscoplasticity in implicit codes.

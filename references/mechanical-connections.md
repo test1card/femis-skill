@@ -444,7 +444,7 @@ When a thermal or thermo-elastic model crosses a mechanical interface (bolted, c
 
 **Dependencies (direction + scaling):** h_c rises **strongly with contact pressure** (≈ `(P/H)^0.8–0.95`, nearly linear); rises as **roughness σ falls** (≈1/σ) and as asperity slope rises; falls with out-of-flatness/waviness; rises with the **harmonic-mean conductivity** `k_s = 2k₁k₂/(k₁+k₂)`; a soft interstitial (grease/TIM) or indium foil raises h an order of magnitude. [Madhusudana (primary); Wikipedia TCC (orientation)]
 
-**Orders of magnitude (cross-verified band):** most measured TCC in air falls in **R″_c ≈ 5×10⁻⁶ … 5×10⁻⁴ m²·K/W**, i.e. **h_c ≈ 2,000 … 200,000 W/m²·K**. Bare Al–Al ≈3,600, SS–SS ≈3,000 W/m²·K at ~1 atm-interface pressure; with thermal grease/TIM, much higher. [Madhusudana; nuclear-power.com; Wikipedia TCC (orientation)]
+**Orders of magnitude (cross-verified band):** most measured TCC in air falls in **R″_c ≈ 5×10⁻⁶ … 5×10⁻⁴ m²·K/W**, i.e. **h_c ≈ 2,000 … 200,000 W/m²·K**. Bare Al–Al ≈3,600, SS–SS ≈3,000 W/m²·K are **low-pressure (~0.1 MPa) illustrative values only** — h_c scales **1–2 orders of magnitude with joint pressure** (see the scaling above), so never apply a bare-metal number without its contact pressure; with thermal grease/TIM, much higher. [Madhusudana; nuclear-power.com; Wikipedia TCC (orientation)]
 
 **Vacuum / cryogenic drop (the spacecraft/cryo headline):**
 - **Vacuum deletes the `h_g` gas path entirely.** In air, `h_g` can rival or exceed `h_c`; in vacuum only the few contact spots conduct, so TCC drops sharply — TCC is a first-order concern for space and cryo hardware, often second-order in air-cooled electronics. [Madhusudana; ESA/NASA practice; Wikipedia TCC (orientation)]

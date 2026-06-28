@@ -205,7 +205,7 @@ Jacobian = inverted element = fatal. [S4][S10][S11]
 | Metric | Ideal | Good / acceptable | Reject (FEA) | Notes |
 |---|---|---|---|---|
 | **Jacobian ratio** | 1.0 | 1–10 for ≥90% of elements | > ~30–40; **any < 0 fatal** | Shape vs ideal element; checks mid-side node placement on quadratics. [S4][S10] |
-| **Skewness** | 0 | 0–0.5 excellent; ≤ 0.75 ok | > ~0.9 (and SimScale FEA hard max ≈ **10** on its scale) | Deviation from ideal symmetric shape; the dominant CFD metric. [S4][S11] |
+| **Skewness** | 0 | 0–0.5 excellent; ≤ 0.75 ok | > ~0.9 (normalized 0–1) | Deviation from ideal symmetric shape; the dominant CFD metric. **Note:** SimScale's FEA solver reports skewness on a *different, unnormalized* scale (hard max ≈10) — don't compare its 10 to this 0–1 metric. [S4][S11] |
 | **Orthogonal quality** | 1.0 | 0.2–1 acceptable; > 0.7 good | < ~0.1–0.15 | 0 worst, 1 best; key for finite-volume/CFD and contact normals. [S4][S11] |
 | **Aspect ratio** | 1 (square/cube) | < 5 ideal; up to ~20 ok in low-gradient regions | > ~20–30 in stress regions (SimScale FEA max ≈ 30; tet max ≈ 16) | Longest/shortest edge; high AR fine only along low-gradient directions (boundary layers). [S4][S10][S11] |
 | **Warping factor** | 0 | small | large | Out-of-plane twist of quad/shell faces; degrades shells & hex faces. [S10] |
@@ -219,7 +219,7 @@ Practical guidance:
 - **High aspect ratio is acceptable only when the long axis aligns with low gradients**
   (boundary layers, thin-wall sweeps). High AR across a steep gradient is an error. [S4][S11]
 - A low-quality mesh in CFD/nonlinear FEA "is very likely to diverge"; SimScale publishes
-  hard maxima (FEA: aspectRatio 30, tet AR 16, skewness 10; CFD: non-orthogonality 88) as
+  hard maxima on its own scales (FEA: aspectRatio 30, tet AR 16, **skewness 10 — unnormalized, not the 0–1 metric above**; CFD: non-orthogonality 88) as
   divergence thresholds. [S11]
 - Mid-side node placement on quadratic elements matters: badly placed mid-nodes (e.g. on a
   fillet) wreck the Jacobian even when corner geometry looks fine. [S4][S10]
@@ -329,7 +329,9 @@ Compute GCI for both refinement steps and verify:
   **GCI₃₂ / ( r^p · GCI₂₁ ) ≈ 1.0**
 
 A value near 1 confirms the solutions are **in the asymptotic range** — i.e. the GCI band is
-meaningful. If it's far from 1, your grids are too coarse or convergence is non-monotonic;
+meaningful. The ratio **approaches 1 only as the grids enter the asymptotic range**, so a value
+off 1 on *coarse* grids means **add a finer grid**, not that an otherwise-converging study has
+"failed." If it stays far from 1, your grids are too coarse or convergence is non-monotonic;
 refine further before trusting any extrapolation. [S17][S18]
 
 ### 5.6 The pragmatic version (when full GCI is overkill)

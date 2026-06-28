@@ -42,9 +42,10 @@ The **Bree diagram** (Bree, 1967, for a thin tube under steady internal pressure
 - **Axes:** X = primary membrane stress ratio **X = σ_P / σ_y** (steady mechanical load); Y = secondary stress ratio **Y = σ_t / σ_y** (cyclic thermal-bending range). Both ≤ 1 for the elastic regime in the simplest construction.
 - **Regions** (elastic-perfectly-plastic Bree construction):
   - **E** — elastic (low X and Y).
-  - **S** — **elastic shakedown** (some first-cycle yield, then elastic). The shakedown boundary for the classic problem is **X + Y = 1** at low X, and **X·Y = 1** (a hyperbola) at higher X.
-  - **P** — **plastic shakedown / reversed plasticity** (alternating plasticity, no net growth) — bounded by **Y = 2** style limits in the perfectly-plastic case.
-  - **R** — **ratcheting** (open region at high X and Y) — forbidden.
+  - **S** — **elastic shakedown** (first-cycle yield, then purely elastic). It lies *above* the elastic limit **X + Y = 1** (the E/S boundary, for X ≤ ½); its *upper* edges are the **reversed-plasticity limit Y = 2** at low X and the **ratchet boundary X·Y = 1** for ½ ≤ X ≤ 1 (the hyperbola running from (½, 2) to (1, 1)).
+  - **P** — **plastic shakedown / reversed plasticity** (alternating plasticity, no net growth) — low X with **Y ≥ 2**.
+  - **R** — **ratcheting** (forbidden) — beyond the **X·Y = 1** branch at high X.
+  - *(These are the distinct curves of the classic elastic-perfectly-plastic Bree construction — not one formula. `X·Y = 1` is the shakedown↔ratchet boundary at high X, **not** a general "shakedown boundary"; reproduce the full diagram for your hardening model before relying on it.)*
 - **Reading it:** keep the operating point inside **E** or **S**. The famous lesson is that a *modest* steady primary stress combined with a *large* cyclic thermal stress ratchets even though neither alone would — ratcheting is a **combined-load** phenomenon, which is exactly why thermal transients matter so much in pressure equipment. [S3]
 - **Hardening shifts the boundaries:** the textbook Bree diagram is elastic-perfectly-plastic; real hardening (especially kinematic) enlarges the shakedown region. Codes apply the perfectly-plastic Bree limits as conservative bounds, or demonstrate shakedown directly by elastic-plastic FE (§4). [S4][S5]
 

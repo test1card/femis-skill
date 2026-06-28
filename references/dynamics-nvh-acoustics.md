@@ -228,7 +228,7 @@ The note above is the eigen-side (gyroscopics, Campbell, whirl split, QR-damped)
 | Large-mass factor | **≈ 10⁶ × model mass** |
 | Acoustic mesh | **≥ 6 linear / ≥ 5–6 quadratic elements per wavelength** at f_max (λ = c/f) |
 | Rotordynamics | gyroscopics + stress-stiffening + spin-softening; Campbell criticals |
-| Rotor unbalance / vibration limits | 1× synchronous response; **ISO 1940** balance grade G; **ISO 7919/10816** limits |
+| Rotor unbalance / vibration limits | 1× synchronous response; **ISO 1940** balance grade G; **ISO 20816** (supersedes ISO 7919/10816) limits |
 | Bearings | **8 dynamic coefficients** (k_xx..c_yy, speed/load-dependent); oil whirl ~0.43–0.48× → oil whip |
 | Rotor stability | damped complex eigen → **log-dec δ > 0**; **API 617/684** Level I/II + cross-coupling sweep |
 | Force-limit C² | **≈ 2** (range 1–5) semi-empirical (Scharton) |

@@ -82,7 +82,7 @@ The near-tip field is singular, so the mesh must either **reproduce the analytic
 | **LEFM** (elastic) | quadratic element with **mid-side node moved to the 1/4 point** | **1/√r** stress (correct LEFM) [VERIFIED-web] |
 | **EPFM** (elastic-plastic) | **collapsed** tip element (degenerate quad/brick) **with quarter-point AND independent/free tip nodes** | stronger **1/r strain** singularity (HRR) [VERIFIED-web] |
 
-The quarter-point trick (Henshaw & Shih / Barsoum) shifts the mid-side node to ¼ of the edge so the isoparametric mapping reproduces the √r displacement → 1/√r strain field exactly with standard quadratic elements. For EPFM, **collapse** one side of the element to the tip and leave the coincident tip nodes **free to move independently** (so the tip can blunt) — this admits the 1/r strain singularity.
+The quarter-point trick (Henshell & Shaw 1975 / Barsoum 1976) shifts the mid-side node to ¼ of the edge so the isoparametric mapping reproduces the √r displacement → 1/√r strain field exactly with standard quadratic elements. For EPFM, **collapse** one side of the element to the tip and leave the coincident tip nodes **free to move independently** (so the tip can blunt) — this admits the 1/r strain singularity.
 
 - **Ring rules.** Sweep roughly **8–20 elements circumferentially** around the tip (more for mixed mode); first-ring radius **~a/10 to a/20** of the crack length; grade outward smoothly. The domain integral needs **several clean rings** beyond ring 1 to give path independence (§3).
 - **3-D crack fronts** want a tube of focused elements swept along the front, refined enough that J varies smoothly along the front; treat **free-surface / corner** points specially (constraint differs).
