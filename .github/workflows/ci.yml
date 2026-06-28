@@ -1,0 +1,155 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install pytest
+        run: python -m pip install --upgrade pip pytest
+
+      - name: Run pytest suite
+        run: python -m pytest tests/ -q
+
+      - name: Run each script self-test (__main__ path)
+        run: |
+          python scripts/gci.py 1.0 305.20 2.0 306.10 4.0 308.50
+          python scripts/yplus.py
+          python scripts/units_check.py
+          python scripts/rainflow.py
+          python scripts/mac.py
+          python scripts/hourglass_check.py
+          python scripts/run_skill_evals.py   # validate the activation/behavior eval set
+
+  hygiene:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Manifest, links, source-hygiene & packaging gates
+        run: |
+          python - <<'PY'
+          import json, re, pathlib, subprocess, sys
+          errs = []
+          root = pathlib.Path('.')
+
+          # 1) plugin manifest: valid JSON, required field, no legacy/invalid fields
+          m = json.load(open('.claude-plugin/plugin.json', encoding='utf-8'))
+          if 'name' not in m:
+              errs.append('plugin.json missing required "name"')
+          bad = [k for k in ('schema_version', 'display_name', 'skills') if k in m]
+          if bad:
+              errs.append(f'plugin.json has invalid/legacy fields: {bad}')
+
+          # 2) SKILL.md has YAML frontmatter
+          skill = pathlib.Path('SKILL.md').read_text(encoding='utf-8')
+          if not skill.startswith('---'):
+              errs.append('SKILL.md missing YAML frontmatter')
+
+          # 3) internal links resolve — every references/*.md or scripts/* named in ANY .md must exist
+          for md in root.rglob('*.md'):
+              txt = md.read_text(encoding='utf-8')
+              named = set(re.findall(r'references/[a-z0-9-]+\.md', txt)) | set(re.findall(r'scripts/[a-z0-9_]+\.(?:py|json)', txt))
+              for rel in named:
+                  if not (root / rel).exists():
+                      errs.append(f'dangling internal link {rel} in {md.as_posix()}')
+
+          # 4) banned / weak / re-hosted-doc domains in references
+          banned = ('researchgate.net', 'scribd.com', 'academia.edu')
+          for f in pathlib.Path('references').glob('*.md'):
+              low = f.read_text(encoding='utf-8').lower()
+              for dom in banned:
+                  if dom in low:
+                      errs.append(f'banned/weak source ({dom}) in {f.name}')
+
+          # 5) release placeholders must not ship (PRE-PUBLISH.md intentionally documents the deferred ones)
+          placeholders = ('TODO-OWNER', 'TODO-set-before-publish', '<you>', '<owner>')
+          scan = list(root.glob('*.md')) + list(pathlib.Path('references').glob('*.md')) + [pathlib.Path('.claude-plugin/plugin.json')]
+          for f in scan:
+              if f.name == 'PRE-PUBLISH.md':
+                  continue
+              t = f.read_text(encoding='utf-8')
+              for p in placeholders:
+                  if p in t:
+                      errs.append(f'release placeholder "{p}" in {f.name}')
+              if re.search(r'\bTODO\b', t):
+                  errs.append(f'stray TODO marker in {f.name}')
+
+          # 6) no build/cache artifacts tracked by git (git-archive ships only tracked files)
+          try:
+              tracked = subprocess.run(['git', 'ls-files'], capture_output=True, text=True, check=True).stdout
+              for junk in ('.pytest_cache/', '.ruff_cache/', '__pycache__/'):
+                  if junk in tracked:
+                      errs.append(f'cache/build artifact tracked by git: {junk}')
+          except Exception:
+              pass  # no git context (e.g. running inside an extracted archive) — nothing to check
+
+          # 7) long references (>500 lines) must carry an early "## Contents" TOC
+          for f in pathlib.Path('references').glob('*.md'):
+              lines = f.read_text(encoding='utf-8').splitlines()
+              if len(lines) > 500 and not any(l.strip() == '## Contents' for l in lines[:60]):
+                  errs.append(f'long reference {f.name} ({len(lines)} lines) lacks an early "## Contents" TOC')
+
+          # 8) advertised counts must not go stale
+          scripts = sorted(p.name for p in pathlib.Path('scripts').glob('*.py'))
+          for s in scripts:  # every script must be documented in the SKILL.md router
+              if f'scripts/{s}' not in skill:
+                  errs.append(f'script {s} exists but is not referenced in SKILL.md')
+          n_tests = len(re.findall(r'\n\s*def test_', pathlib.Path('tests/test_scripts.py').read_text(encoding='utf-8')))
+          readme = pathlib.Path('README.md').read_text(encoding='utf-8')
+          if str(n_tests) not in readme:
+              errs.append(f'README does not advertise the actual test count ({n_tests}) — update the stale number')
+
+          # 9) machine-readable indexes must not desync from the tree
+          ref_files = sorted(p.as_posix() for p in pathlib.Path('references').glob('*.md'))
+          script_files = sorted(p.as_posix() for p in pathlib.Path('scripts').glob('*.py'))
+          try:
+              ridx = json.load(open('references_index.json', encoding='utf-8'))
+              listed = sorted(e['file'] for e in ridx['references'])
+              if listed != ref_files:
+                  errs.append(f'references_index.json out of sync: missing={sorted(set(ref_files) - set(listed))} extra={sorted(set(listed) - set(ref_files))}')
+          except Exception as e:
+              errs.append(f'references_index.json unreadable: {e}')
+          try:
+              sidx = json.load(open('skills_index.json', encoding='utf-8'))
+              listed_s = sorted(e['file'] for e in sidx['scripts'])
+              if listed_s != script_files:
+                  errs.append(f'skills_index.json scripts out of sync: missing={sorted(set(script_files) - set(listed_s))} extra={sorted(set(listed_s) - set(script_files))}')
+              if sidx.get('reference_count') != len(ref_files):
+                  errs.append(f"skills_index.json reference_count {sidx.get('reference_count')} != {len(ref_files)}")
+              n_cases = len(json.load(open('evals/prompts.json', encoding='utf-8'))['cases'])
+              if sidx.get('evals', {}).get('cases') != n_cases:
+                  errs.append(f"skills_index.json evals.cases {sidx.get('evals', {}).get('cases')} != actual {n_cases}")
+          except Exception as e:
+              errs.append(f'skills_index.json unreadable: {e}')
+
+          if errs:
+              print('HYGIENE / PACKAGING CHECK FAILED:'); [print(' -', e) for e in errs]; sys.exit(1)
+          print(f'OK: manifest + internal links + source hygiene + placeholders + caches + TOCs; '
+                f'{len(scripts)} scripts documented, {n_tests} tests advertised')
+          PY
+
+      - name: Real plugin validate (authoritative when the Claude CLI is available)
+        run: |
+          if command -v claude >/dev/null 2>&1; then
+            echo "claude CLI present — running the authoritative validator:"
+            claude plugin validate .claude-plugin/plugin.json
+          else
+            echo "claude CLI not on PATH — relying on the Python manifest checks above as the FALLBACK."
+            echo "(Install the Claude CLI in CI to run the authoritative 'claude plugin validate'.)"
+          fi

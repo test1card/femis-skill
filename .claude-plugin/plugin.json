@@ -1,0 +1,15 @@
+{
+  "name": "fem-cae",
+  "description": "Turns an AI coding agent into a disciplined finite-element analyst. Encodes the full CAE workflow (idealization -> meshing -> connections -> solve controls -> convergence -> GCI mesh independence -> V&V), headless/batch automation recipes, result-parsing gotchas, and a precise headless-vs-human contract across Ansys, Simcenter, Thermal Desktop, Abaqus, LS-DYNA, MSC Nastran, COMSOL, OpenFOAM and more.",
+  "version": "0.1.0",
+  "author": {
+    "name": "The fem-cae Authors"
+  },
+  "license": "Apache-2.0",
+  "keywords": [
+    "FEM", "FEA", "CAE", "Ansys", "Simcenter", "Nastran", "MAPDL",
+    "thermal", "CFD", "electromagnetics", "structural", "fatigue", "fracture",
+    "buckling", "multiphysics", "mesh-independence", "GCI", "optimization",
+    "calibration", "V&V", "UQ", "headless"
+  ]
+}

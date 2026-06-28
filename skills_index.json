@@ -1,0 +1,26 @@
+{
+  "_about": "Top-level machine-readable manifest of the fem-cae skill — the entry point for agents/humans to discover the router, references, runnable scripts, and the eval set without reading every file. CI (the hygiene job) asserts the script file-set here and the reference count match the tree.",
+  "name": "fem-cae",
+  "version": "1.0.0",
+  "skill": "SKILL.md",
+  "summary": "Governance/decision layer that turns an AI coding agent into a disciplined finite-element analyst across many solvers. It governs engineering claims; it does not drive solvers or sign off designs.",
+  "governance": {
+    "pre_claim_self_check": "SKILL.md (## Pre-claim self-check)",
+    "execution_modes": ["SMOKE", "DEBUG", "ENGINEERING", "SIGNOFF"],
+    "claim_templates": "references/claim-templates.md",
+    "escalation_examples": "references/escalation-examples.md"
+  },
+  "references_index": "references_index.json",
+  "reference_count": 32,
+  "scripts": [
+    { "file": "scripts/gci.py", "summary": "Grid Convergence Index (GCI) — Roache / ASME V&V 20 / Celik et al. 2008." },
+    { "file": "scripts/hourglass_check.py", "summary": "Explicit-dynamics energy-quality gate (hourglass / energy balance / KE)." },
+    { "file": "scripts/mac.py", "summary": "Modal Assurance Criterion (MAC) and Coordinate MAC (COMAC) for mode-shape correlation." },
+    { "file": "scripts/rainflow.py", "summary": "ASTM E1049 rainflow cycle counting for fatigue post-processing." },
+    { "file": "scripts/run_skill_evals.py", "summary": "Static validator + scoring harness for the activation/behavior eval set." },
+    { "file": "scripts/units_check.py", "summary": "Consistent-units and 1g mass sanity checks for FE models." },
+    { "file": "scripts/yplus.py", "summary": "y+ first-cell-height estimator for wall-bounded CFD meshing." }
+  ],
+  "evals": { "file": "evals/prompts.json", "cases": 22, "runner": "scripts/run_skill_evals.py" },
+  "tests": { "file": "tests/test_scripts.py", "checks": 56 }
+}

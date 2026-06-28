@@ -1,0 +1,32 @@
+# fem-cae — presentation / discovery metadata for OpenAI Codex-style hosts.
+# OPTIONAL. Mirrors the SKILL.md frontmatter so Codex can surface and route to this skill.
+# The authoritative skill definition is SKILL.md (Claude Agent Skill format).
+name: fem-cae
+version: "1.0.0"
+license: Apache-2.0
+entrypoint: SKILL.md
+summary: >-
+  Finite element analysis (FEA / FEM) & CAE governance layer for AI coding agents —
+  structural, thermal, CFD, electromagnetics, vibro-acoustics/NVH, multibody and coupled
+  multiphysics across Ansys, Abaqus, Nastran, LS-DYNA, COMSOL, OpenFOAM, Simcenter and
+  Thermal Desktop. It governs engineering claims — execution-mode gates (SMOKE / DEBUG /
+  ENGINEERING / SIGNOFF), a pre-claim self-check, GCI mesh-independence and V&V, and a
+  precise headless-vs-human contract — but it does not drive solvers or sign off designs.
+keywords:
+  - FEA
+  - FEM
+  - CAE
+  - mesh convergence
+  - GCI
+  - simulation verification
+  - V&V
+  - engineering sign-off
+  - solver automation boundary
+  - headless
+use_when: >-
+  Running, scripting, or automating FEM/CAE analysis; mesh-independence / GCI; verification
+  & validation; choosing elements / solvers / units; parsing .rst/.rth/.op2/.f06; or deciding
+  what an agent may do headless versus what a human must decide.
+pair_with: >-
+  A solver driver / executor (PyMAPDL, PyMechanical, an Abaqus / OpenFOAM driver, Open FEM
+  Agent, or a CAE MCP). This skill is the brain; the executor is the hands.

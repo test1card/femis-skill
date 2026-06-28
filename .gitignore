@@ -1,0 +1,63 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+dist/
+build/
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Solver artefacts that should never be committed
+*.rst
+*.rth
+*.op2
+*.odb
+*.f06
+*.out
+*.log
+*.err
+*.db
+*.esav
+*.osav
+*.mntr
+*.stat
+*.full
+*.mlv
+*.emat
+*.erot
+*.cas
+*.dat.gz
+*.h5
+*.cgns
+*.vtu
+*.vtk
+*.pvd
+*.pvtu
+*.foam
+
+# Run outputs (keep manifest templates, not instance outputs)
+run_manifest.json
+runs_index.csv
+qoi.csv
+checks.md
+assumptions.md
+failure_triage.md
+
+# Misc temp
+*.tmp
+*.bak
+.env
