@@ -1,17 +1,16 @@
 # Pre-Publish Checklist
 
-This skill's **content is a release candidate**, but a few host-specific fields are intentionally left blank
-until a Git remote exists — rather than ship placeholder URLs. The repo is **not** publish-ready until every
-box below is checked. Complete these before publishing publicly.
-A CI job (`pre-publish-check`) scans for the `<owner>` token below so none of this is missed.
+This skill's **content is a release candidate**. The owner-bound fields below are now wired to
+`https://github.com/test1card/fem-cae-skill`, but the **repository must still be created and pushed**, and the
+release **tagged**, before it is publicly installable. The repo is **not** published until every box is checked.
 
 ## 1. Repository identity
-- [ ] Create the Git repository (suggested name: `fem-cae`).
-- [ ] In `.claude-plugin/plugin.json`, add the owner-bound URL fields (omitted while no remote exists):
-      - `"homepage": "https://github.com/<owner>/fem-cae"`
-      - `"repository": "https://github.com/<owner>/fem-cae"`
-- [ ] In `README.md`, add `git clone https://github.com/<owner>/fem-cae …` install commands
-      (the README currently documents copy-based install, which needs no URL).
+- [x] Plugin/skill name `fem-cae`; **GitHub repo `fem-cae-skill`** (owner `test1card`). The skill installs
+      into a `fem-cae/` folder, so the repo name and skill-folder name intentionally differ.
+- [x] `.claude-plugin/plugin.json` carries `homepage` + `repository` = `https://github.com/test1card/fem-cae-skill`.
+- [x] `README.md` documents copy-based install **and** `git clone … skills/fem-cae` using the repo URL.
+- [ ] **Create the GitHub repository `test1card/fem-cae-skill` and push** `master` — nothing is publicly
+      installable until this is done. (Not done automatically; no push happens without your go-ahead.)
 
 ## 2. Attribution / license
 - [ ] `NOTICE` reads `Copyright 2026 The fem-cae Authors`. Change to your name/org if desired.
@@ -27,4 +26,4 @@ A CI job (`pre-publish-check`) scans for the `<owner>` token below so none of th
 ## 4. Final gate
 - [ ] CI green: `pytest`, leak scan, **internal**-link & banned-domain check, placeholder/cache scan, and `claude plugin validate`.
 - [ ] **External URL health** (not covered by CI): run a link checker (e.g. `lychee`/`markdown-link-check` over `references/`) — CI validates *internal* links and banned domains only, not whether external URLs still resolve.
-- [ ] `<owner>` appears **only** in this file — confirm it is nowhere in the shipped tree.
+- [ ] Confirm no placeholder tokens (`<owner>`, `<you>`, `TODO-OWNER`) remain anywhere in the tree.

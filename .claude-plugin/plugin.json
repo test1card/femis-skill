@@ -5,6 +5,8 @@
   "author": {
     "name": "The fem-cae Authors"
   },
+  "homepage": "https://github.com/test1card/fem-cae-skill",
+  "repository": "https://github.com/test1card/fem-cae-skill",
   "license": "Apache-2.0",
   "keywords": [
     "FEM", "FEA", "CAE", "Ansys", "Simcenter", "Nastran", "MAPDL",

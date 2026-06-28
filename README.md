@@ -171,8 +171,18 @@ that folder's root).
 **Pin a version** for reproducibility — install from a known tag or commit so an analysis always runs
 against a fixed revision of the methodology (after cloning a published copy: `git -C <skill-dir> checkout <tag-or-sha>`).
 
-Once this skill is published to a Git host you can instead `git clone` it directly into the
-`skills/fem-cae/` path; see [`PRE-PUBLISH.md`](PRE-PUBLISH.md) for the publishing checklist.
+Or **clone it directly** into the skill path — note the repo is `fem-cae-skill` but the skill folder is
+`fem-cae`:
+
+```bash
+# personal (all projects)
+git clone https://github.com/test1card/fem-cae-skill ~/.claude/skills/fem-cae
+# project-scoped
+git clone https://github.com/test1card/fem-cae-skill .claude/skills/fem-cae
+```
+
+Then pin a revision for reproducibility: `git -C <skill-dir> checkout <tag-or-sha>`. See
+[`PRE-PUBLISH.md`](PRE-PUBLISH.md) for the publishing checklist (the repo must be created and pushed first).
 
 The skill activates automatically when the agent's task matches the `description` in `SKILL.md` (e.g. "run a
 transient thermal solve", "calibrate a cooldown curve", "mesh-independence study", ".rth parse"). No manual
