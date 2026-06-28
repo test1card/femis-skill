@@ -61,10 +61,16 @@ versus what a person must do in the GUI.
 
 ## Why it exists
 
-Most FEA mistakes are born in pre-processing and hidden by a solver that "ran successfully." This skill makes the
-agent enforce gates instead: it won't trust a single-mesh result, it converges the *quantity of interest* (not a
-singular peak), it checks equilibrium and energy balance, and it labels every run with an **execution mode**
-(SMOKE / DEBUG / ENGINEERING / SIGNOFF) that dictates which gates are mandatory and what may be claimed. Before stating any number the agent runs a **pre-claim self-check**, phrases the result with **claim templates**, and — on load-case / allowable / contact-type / sign-off decisions — **escalates** to a human instead of guessing (`references/claim-templates.md`, `references/escalation-examples.md`). An adversarial **eval set** (`evals/prompts.json`) encodes the expected behavior; CI validates the eval set's **structure** (schema, valid modes/behaviors, and that every referenced file exists) — not agent behavior — and `scripts/live_eval.py` runs a live **skill-on vs skill-off A/B** to *measure* the actual behavior change (see `evals/RESULTS.md`).
+Most FEA errors happen in pre-processing — wrong units, a mesh that's too coarse, the wrong contact, a missing
+constraint — and the solver still reports success, so they slip through. FEMis makes the agent check the things that
+decide whether a number is usable: it won't quote a stress from a single mesh, it converges the quantity of interest
+instead of a singular peak, it checks equilibrium and energy balance, and it tags every run with an execution mode
+(SMOKE / DEBUG / ENGINEERING / SIGNOFF) that sets which checks are mandatory and what may be claimed. Before stating a
+number it runs a **pre-claim self-check** and writes the result with a **claim template**; for load case, allowable,
+contact type, and sign-off it asks a human instead of guessing (`references/claim-templates.md`,
+`references/escalation-examples.md`). The eval set (`evals/prompts.json`) records the expected behavior; CI checks the
+set's structure — schema, valid modes, and that every referenced file exists — and `scripts/live_eval.py` runs a
+skill-on vs skill-off A/B to measure the actual change (`evals/RESULTS.md`).
 
 ## What's inside
 
@@ -215,7 +221,7 @@ git clone https://github.com/test1card/femis-skill .claude/skills/femis
 Then pin a revision for reproducibility: `git -C <skill-dir> checkout <tag-or-sha>`. See
 [`PRE-PUBLISH.md`](PRE-PUBLISH.md) for the publishing checklist (the repo must be created and pushed first).
 
-The skill activates automatically when the agent's task matches the `description` in `SKILL.md` (e.g. "run a
+Under Claude Code, the skill activates automatically when the agent's task matches the `description` in `SKILL.md` (e.g. "run a
 transient thermal solve", "calibrate a cooldown curve", "mesh-independence study", ".rth parse"). No manual
 invocation needed.
 
