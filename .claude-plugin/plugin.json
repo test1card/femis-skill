@@ -1,7 +1,7 @@
 {
   "name": "femis",
   "description": "Turns an AI coding agent into a disciplined finite-element analyst. Encodes the full CAE workflow (idealization -> meshing -> connections -> solve controls -> convergence -> GCI mesh independence -> V&V), headless/batch automation recipes, result-parsing gotchas, and a precise headless-vs-human contract across Ansys, Simcenter, Thermal Desktop, Abaqus, LS-DYNA, MSC Nastran, COMSOL, OpenFOAM and more.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": {
     "name": "The femis Authors"
   },

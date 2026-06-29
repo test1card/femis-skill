@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.0.2 - 2026-06-29
+
+Community and release polish after `v1.0.1`.
+
+- Added `SECURITY.md` with private-reporting guidance and vulnerability scope for an agent-skill repository.
+- Added `CODE_OF_CONDUCT.md` focused on respectful, evidence-based engineering discussion.
+- Added a fallback `.github/ISSUE_TEMPLATE.md` alongside the guided bug/feature issue templates.
+- Updated release metadata to `1.0.2` across all machine-readable manifests.
+
 ## v1.0.1 - 2026-06-29
 
 Release polish and evidence hardening after the initial public tag.

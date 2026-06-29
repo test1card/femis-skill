@@ -1,6 +1,6 @@
 # Pre-Publish Checklist
 
-This skill's current release line is **`v1.0.1`** at `https://github.com/test1card/femis-skill` (branch `main`).
+This skill's current release line is **`v1.0.2`** at `https://github.com/test1card/femis-skill` (branch `main`).
 This file records the owner-bound publishing steps; the remaining unchecked items are optional follow-ups.
 
 ## 1. Repository identity
@@ -10,7 +10,7 @@ This file records the owner-bound publishing steps; the remaining unchecked item
 - [x] `README.md` documents copy-based install **and** `git clone … skills/femis` using the repo URL.
 - [x] **Repository created, pushed (branch `main`), and tagged `v1.0.0`** — live at
       `https://github.com/test1card/femis-skill`.
-- [x] `v1.0.1` release metadata and release notes live in `CHANGELOG.md`.
+- [x] `v1.0.2` release metadata and release notes live in `CHANGELOG.md`.
 
 ## 2. Attribution / license
 - [ ] `NOTICE` reads `Copyright 2026 The femis Authors`. Change to your name/org if desired.
@@ -19,14 +19,14 @@ This file records the owner-bound publishing steps; the remaining unchecked item
       boilerplate, intentionally left as-is — the real copyright lives in `NOTICE`, not the appendix.
 
 ## 3. Packaging (do not zip the working tree)
-- [ ] Build the `v1.0.1` release artifact from a clean checkout via `git archive`
-      (`git archive --format=zip --output=femis-1.0.1.zip v1.0.1`).
-- [x] Tagged the initial release `v1.0.0` so an analysis can pin a fixed methodology revision.
+- [ ] Build the `v1.0.2` release artifact from a clean checkout via `git archive`
+      (`git archive --format=zip --output=femis-1.0.2.zip v1.0.2`).
+- [x] Tagged `v1.0.0` and `v1.0.1` so analyses can pin fixed methodology revisions.
 
 ## 4. Final gate
 - [x] Local release gate green on 2026-06-29: `pytest`, evals, provenance coverage, script smoke-tests,
       `actionlint`, YAML parsing, **internal**-link & banned-domain check, placeholder/cache scan,
       cache scan, and `claude plugin validate`.
-- [ ] GitHub CI green after pushing the release commit.
+- [ ] Verify GitHub CI green after pushing each release commit/tag.
 - [ ] **External URL health** (not covered by CI): run a link checker (e.g. `lychee`/`markdown-link-check` over `references/`) — CI validates *internal* links and banned domains only, not whether external URLs still resolve.
 - [ ] Confirm no placeholder tokens (`<owner>`, `<you>`, `TODO-OWNER`) remain anywhere in the tree.
