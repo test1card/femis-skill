@@ -1,9 +1,15 @@
 ---
 name: femis
-description: Finite element analysis (FEA / FEM) & CAE — structural, thermal, CFD, electromagnetics, vibro-acoustics/NVH, multibody, coupled multiphysics. Use when running, scripting, or automating solvers (Ansys, Abaqus, Nastran, LS-DYNA, COMSOL, OpenFOAM, Simcenter, Thermal Desktop and more); for mesh convergence / independence (GCI), simulation verification & validation (V&V / UQ), engineering sign-off, or the solver automation boundary (what an agent does headless vs what a human must do in the GUI). Triggers: static/modal/eigenvalue-buckling, nonlinear/contact/plasticity/creep/ratcheting, fatigue (S-N/strain-life), fracture (J-integral/XFEM/crack-growth), composites/delamination, explicit/crash/impact, steady/transient thermal & radiation, CFD turbulence/y+/multiphase, electromagnetics (eddy-current/full-wave), rotordynamics/Campbell, random-vibration/Miles, thermal contact resistance, bolted/welded/RBE2/RBE3 connections, mesh independence (GCI)/error estimation, substructuring/ROM/ML-surrogates, optimization & inverse calibration (transient T(t)), V&V/UQ & model credibility, choosing elements/solvers/units, parsing .rst/.rth/.op2/.f06. Also defines what an agent can do headless vs what a human must do in the GUI.
+description: >-
+  Finite element analysis (FEA / FEM) and CAE governance for AI coding agents:
+  structural, thermal, CFD, electromagnetics, vibro-acoustics/NVH, multibody,
+  coupled multiphysics, mesh convergence, GCI, V&V/UQ, result provenance,
+  engineering claim discipline, solver automation boundaries, and human sign-off
+  gates across Ansys, Abaqus, Nastran, LS-DYNA, COMSOL, OpenFOAM, Simcenter,
+  Thermal Desktop and related solvers.
 license: Apache-2.0
 metadata:
-  version: 1.0.0
+  version: "1.0.0"
 ---
 
 # FEM / CAE — structural · thermal · CFD · multiphysics

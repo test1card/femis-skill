@@ -21,7 +21,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install pytest
-        run: python -m pip install --upgrade pip pytest
+        run: python -m pip install --upgrade pip pytest pyyaml
 
       - name: Run pytest suite
         run: python -m pytest tests/ -q
@@ -41,10 +41,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install PyYAML
+        run: python -m pip install --upgrade pyyaml
+
       - name: Manifest, links, source-hygiene & packaging gates
         run: |
           python - <<'PY'
-          import json, re, pathlib, subprocess, sys
+          import json, re, pathlib, subprocess, sys, yaml
           errs = []
           root = pathlib.Path('.')
 
@@ -56,10 +59,26 @@ jobs:
           if bad:
               errs.append(f'plugin.json has invalid/legacy fields: {bad}')
 
-          # 2) SKILL.md has YAML frontmatter
+          # 2) SKILL.md has parseable YAML frontmatter with required discovery fields
           skill = pathlib.Path('SKILL.md').read_text(encoding='utf-8')
-          if not skill.startswith('---'):
+          skill_meta = {}
+          if not skill.startswith('---\n'):
               errs.append('SKILL.md missing YAML frontmatter')
+          else:
+              try:
+                  _, fm, body = skill.split('---', 2)
+                  skill_meta = yaml.safe_load(fm) or {}
+                  if not isinstance(skill_meta, dict):
+                      errs.append('SKILL.md frontmatter must parse to a mapping')
+                  for key in ('name', 'description'):
+                      if not str(skill_meta.get(key, '')).strip():
+                          errs.append(f'SKILL.md missing required frontmatter field: {key}')
+                  if len(str(skill_meta.get('description', ''))) > 1024:
+                      errs.append('SKILL.md description exceeds 1024 characters')
+                  if not body.strip():
+                      errs.append('SKILL.md body is empty')
+              except Exception as e:
+                  errs.append(f'SKILL.md frontmatter is invalid YAML: {e}')
 
           # 3) internal links resolve — every references/*.md or scripts/* named in ANY .md must exist
           for md in root.rglob('*.md'):

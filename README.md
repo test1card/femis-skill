@@ -134,6 +134,7 @@ skills_index.json                 # master machine-readable manifest (router, re
 references_index.json             # machine-readable index of references/ (file → title)
 tests/
   test_scripts.py                 # 59 pytest checks across the 6 calculator scripts (known-good values + error paths)
+  test_skill_metadata.py          # validates SKILL.md YAML frontmatter and required discovery metadata
 .github/workflows/
   ci.yml                          # CI: pytest + script self-tests + eval-set validation + source-hygiene gate (placeholders/caches/links/banned-domains/TOCs), Python 3.10-3.13
 ```
@@ -141,8 +142,9 @@ tests/
 Progressive disclosure: `SKILL.md` stays lean (a routing layer); the agent loads a `references/` file only when
 that topic is in play.
 
-The `scripts/` are covered by a `pytest` suite (`tests/test_scripts.py`, 59 checks) run in CI across Python
-3.10–3.13 — so the runnable calculators stay correct, not just illustrative.
+The `scripts/` are covered by 59 calculator checks in `tests/test_scripts.py`, with an additional packaging check for
+`SKILL.md` metadata. CI runs the suite across Python 3.10–3.13, so the runnable calculators and skill entrypoint stay
+correct, not just illustrative.
 
 ## Recommended Agentic CAE Workflow
 
