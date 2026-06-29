@@ -37,6 +37,9 @@ finite-element analyst. It encodes the full CAE workflow — idealization → me
 solve controls → convergence → mesh independence → V&V — plus the **headless/batch automation and result-parsing
 gotchas** that usually cost hours to rediscover.
 
+For the current verification boundary, see [`EVIDENCE.md`](EVIDENCE.md). It distinguishes tested calculators and
+metadata checks from sourced guidance, partial provenance tags, live A/B evidence, and unproven executor integration.
+
 Beyond textbook methodology it adds two things. First, a precise **agent-headless-vs-human contract**: what an
 automation agent may run unattended, and what a person still has to do in the GUI. Second, selected
 confidence-tagged failure-mode recipes — for example, headless thermal-contact settings that pass the solve and
@@ -83,6 +86,7 @@ references/
   claim-templates.md              # per-mode (SMOKE/DEBUG/ENGINEERING/SIGNOFF) result-phrasing templates + reusable contract phrases
   escalation-examples.md          # worked refuse/escalate cases (contact type, single-mesh peak, calibration, sign-off, singularity, ...)
   claims-validation.md            # sourcing map for the router's load-bearing claims (claim -> standard/textbook -> verdict)
+  provenance-coverage.md          # generated coverage table for confidence tags across references/*.md
   # — core workflow —
   meshing-convergence.md          # element tech, quality metrics, mesh independence (GCI/ZZ-SPR), p-/hp-refinement, DWR, singularities
   material-modeling.md            # constitutive models (plasticity/creep/hyperelastic/composite/damage), data sources, calibration
@@ -125,6 +129,7 @@ scripts/
   rainflow.py                     # ASTM E1049 rainflow cycle counting + Palmgren-Miner damage
   mac.py                          # Modal Assurance Criterion + COMAC (auto/cross-MAC, complex modes, mode pairing)
   hourglass_check.py              # explicit-dynamics energy-quality gate (hourglass % / energy balance / KE-IE)
+  provenance_coverage.py          # generate/check references/provenance-coverage.md
   run_skill_evals.py              # validate the activation/behavior eval set + score live agent responses, including numeric checks when present
   live_eval.py                    # optional live A/B harness (skill-on vs skill-off) — measures behavior change
   run_manifest_template.json      # per-solve traceability manifest (NAFEMS R0033)
@@ -136,6 +141,7 @@ references_index.json             # machine-readable index of references/ (file 
 tests/
   test_scripts.py                 # 59 pytest checks across the 6 calculator scripts (known-good values + error paths)
   test_eval_scoring.py            # scorer regression tests, including numeric ground-truth matching
+  test_provenance_coverage.py     # keeps provenance coverage table generated from references/*.md
   test_skill_metadata.py          # validates SKILL.md YAML frontmatter and required discovery metadata
 .github/workflows/
   ci.yml                          # CI: pytest + script self-tests + eval-set validation + source-hygiene gate (placeholders/caches/links/banned-domains/TOCs), Python 3.10-3.13
@@ -144,9 +150,9 @@ tests/
 Progressive disclosure: `SKILL.md` stays lean (a routing layer); the agent loads a `references/` file only when
 that topic is in play.
 
-The `scripts/` are covered by 59 calculator checks in `tests/test_scripts.py`, with an additional packaging check for
-`SKILL.md` metadata and scorer checks for `run_skill_evals.py`. CI runs the suite across Python 3.10–3.13, so the
-runnable calculators, skill entrypoint, and eval harness stay checked.
+The `scripts/` are covered by 59 calculator checks in `tests/test_scripts.py`, with additional checks for
+`SKILL.md` metadata, the eval scorer, and the provenance coverage table. CI runs the suite across Python 3.10–3.13,
+so the runnable calculators, skill entrypoint, eval harness, and evidence dashboard stay checked.
 
 Current evidence boundaries: pytest covers the calculators, metadata, and eval harness; it does **not** prove that
 every governance instruction is followed by every agent. `evals/prompts.json` is mostly an activation/behavior suite;
@@ -273,8 +279,8 @@ calibration / inverse parameter ID & model updating; V&V/UQ; cryogenic / vacuum 
 Some headless/automation recipes are tagged by confidence: `[AUTHOR-VERIFIED]` (run on a real model), `[DOCS-ONLY]`
 (from documentation, not executed here), `[VERIFIED-web]` / `[NEEDS-HW-TEST]` (vendor-documented; reproduce on
 your licensed install before relying on it for ENGINEERING/SIGNOFF). Coverage is not yet uniform across the
-reference set. Treat any non-`[AUTHOR-VERIFIED]` or untagged automation recipe as a hypothesis and run a SMOKE
-reproducer first.
+reference set; see `references/provenance-coverage.md`. Treat any non-`[AUTHOR-VERIFIED]` or untagged automation
+recipe as a hypothesis and run a SMOKE reproducer first.
 
 ## License
 

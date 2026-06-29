@@ -34,6 +34,7 @@ jobs:
           python scripts/rainflow.py
           python scripts/mac.py
           python scripts/hourglass_check.py
+          python scripts/provenance_coverage.py --check
           python scripts/run_skill_evals.py   # validate the activation/behavior eval set
 
   hygiene:

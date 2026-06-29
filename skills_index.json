@@ -11,11 +11,12 @@
     "escalation_examples": "references/escalation-examples.md"
   },
   "references_index": "references_index.json",
-  "reference_count": 33,
+  "reference_count": 34,
   "scripts": [
     { "file": "scripts/gci.py", "summary": "Grid Convergence Index (GCI) — Roache / ASME V&V 20 / Celik et al. 2008." },
     { "file": "scripts/hourglass_check.py", "summary": "Explicit-dynamics energy-quality gate (hourglass / energy balance / KE)." },
     { "file": "scripts/mac.py", "summary": "Modal Assurance Criterion (MAC) and Coordinate MAC (COMAC) for mode-shape correlation." },
+    { "file": "scripts/provenance_coverage.py", "summary": "Generate and check provenance-tag coverage across references/*.md." },
     { "file": "scripts/rainflow.py", "summary": "ASTM E1049 rainflow cycle counting for fatigue post-processing." },
     { "file": "scripts/run_skill_evals.py", "summary": "Static validator + scoring harness for the activation/behavior eval set, including optional numeric ground-truth checks." },
     { "file": "scripts/live_eval.py", "summary": "Optional live A/B harness (skill-on vs skill-off) over evals/prompts.json; measures behavior change via the Anthropic SDK or any agent callable." },
