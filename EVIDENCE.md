@@ -32,6 +32,19 @@ These commands verify:
   verify against the user's solver, geometry, material data, standards, and consequence level.
 - Provenance tags are currently uneven. See `references/provenance-coverage.md` for the current coverage snapshot.
 
+## Verified-Depth Map
+
+This is the current evidence boundary by artifact type. It is intentionally conservative.
+
+| Area | Current depth | What this proves | What it does not prove |
+|---|---|---|---|
+| Helper calculators | AUTHOR-TESTED by pytest known values and error-path checks for GCI, y+, units, rainflow, MAC/COMAC, and hourglass gates. | The shipped dependency-free scripts compute the documented examples and reject known bad inputs. | That any solver model using those scripts is correct. |
+| Checked examples | AUTHOR-TESTED runnable GCI and units examples; one checked refusal template. | The examples stay synchronized with the scripts and claim discipline. | Full solver execution or benchmark-grade engineering accuracy. |
+| Router claims | SOURCE-BACKED map in `references/claims-validation.md`; some rows are qualified. | The router's compressed claims have traceable standards/textbook/vendor sources. | Independent certification, exhaustive source excerpts, or proof that every reference-file claim is audited. |
+| Reference guidance | Mixed: cited guidance across all reference files; provenance tags in 7/33 files. | The reference set is navigable and source-oriented. | Systematic author-executed verification across the full corpus. |
+| Agent behavior | One live A/B snapshot on a Claude-family model plus structural eval cases. | Loading the skill changes answer shape toward modes, provenance, tool routing, and escalation. | Cross-model portability or statistically powered behavioral performance. |
+| Executor integration | Not yet demonstrated in this repository. | The intended OASiS/PyMAPDL/etc. pairing is documented. | End-to-end solve evidence, result parsing, or SIGNOFF support. |
+
 ## Live Agent Evidence
 
 `evals/RESULTS.md` records a single-family live A/B run. It shows that loading `femis` changes the answer shape toward

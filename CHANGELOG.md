@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Added a verified-depth map to make the current evidence boundary explicit.
+- Relabeled router claim verdicts from `VALIDATED` to `SOURCE-BACKED` where the evidence is source support rather
+  than an independently reproducible audit.
+
 ## v1.0.2 - 2026-06-29
 
 Community and release polish after `v1.0.1`.

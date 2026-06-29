@@ -91,7 +91,7 @@ references/
   # — governance / claim discipline (the moat) —
   claim-templates.md              # per-mode (SMOKE/DEBUG/ENGINEERING/SIGNOFF) result-phrasing templates + reusable contract phrases
   escalation-examples.md          # worked refuse/escalate cases (contact type, single-mesh peak, calibration, sign-off, singularity, ...)
-  claims-validation.md            # sourcing map for the router's load-bearing claims (claim -> standard/textbook -> verdict)
+  claims-validation.md            # sourcing map for router claims (claim -> source -> source-backed/qualified verdict)
   provenance-coverage.md          # generated coverage table for confidence tags across references/*.md
   # — core workflow —
   meshing-convergence.md          # element tech, quality metrics, mesh independence (GCI/ZZ-SPR), p-/hp-refinement, DWR, singularities
@@ -292,6 +292,18 @@ Some headless/automation recipes are tagged by confidence: `[AUTHOR-VERIFIED]` (
 your licensed install before relying on it for ENGINEERING/SIGNOFF). Coverage is not yet uniform across the
 reference set; see `references/provenance-coverage.md`. Treat any non-`[AUTHOR-VERIFIED]` or untagged automation
 recipe as a hypothesis and run a SMOKE reproducer first.
+
+The short version is:
+
+| Layer | Current evidence |
+|---|---|
+| Helper scripts and small examples | Author-tested in CI with known values and error paths. |
+| Router claims | Source-backed in `references/claims-validation.md`; not an independent audit certificate. |
+| Reference corpus | Cited guidance with partial provenance tags; 7/33 files currently tagged. |
+| Agent behavior | One Claude-family live A/B snapshot plus structural eval cases. |
+| Executor pairing | Documented, but not yet demonstrated end-to-end in this repo. |
+
+For the full boundary, see [`EVIDENCE.md`](EVIDENCE.md).
 
 ## License
 
