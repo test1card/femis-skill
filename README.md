@@ -83,6 +83,8 @@ skill-on vs skill-off A/B to measure the actual change (`evals/RESULTS.md`).
 
 ```
 SKILL.md                 # the router: agent contract, execution modes, workflow, decision tables, V&V, triage
+EVIDENCE.md              # what is verified, sourced, and not yet proven
+CHANGELOG.md             # release notes
 references/
   # — governance / claim discipline (the moat) —
   claim-templates.md              # per-mode (SMOKE/DEBUG/ENGINEERING/SIGNOFF) result-phrasing templates + reusable contract phrases

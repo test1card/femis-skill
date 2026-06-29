@@ -1,7 +1,7 @@
 {
   "_about": "Top-level machine-readable manifest of the femis skill — the entry point for agents/humans to discover the router, references, runnable scripts, and the eval set without reading every file. CI (the hygiene job) asserts the script file-set here and the reference count match the tree.",
   "name": "femis",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "skill": "SKILL.md",
   "summary": "Governance/decision layer that turns an AI coding agent into a disciplined finite-element analyst across many solvers. It governs engineering claims; it does not drive solvers or sign off designs.",
   "governance": {

@@ -9,7 +9,7 @@ description: >-
   Thermal Desktop and related solvers.
 license: Apache-2.0
 metadata:
-  version: "1.0.0"
+  version: "1.0.1"
 ---
 
 # FEM / CAE — structural · thermal · CFD · multiphysics
