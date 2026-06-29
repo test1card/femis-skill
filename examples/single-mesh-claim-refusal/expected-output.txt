@@ -1,0 +1,9 @@
+I cannot use a single mesh peak stress as an engineering result or margin basis.
+
+At this altitude it is not an engineering result: the value has no discretization-error statement, and a peak stress
+may be singular at a corner, point load, contact edge, weld toe, or crack tip. Refine the mesh on the quantity of
+interest, exclude or linearize any singular location, and report the result with either a GCI/asymptotic-range study
+for SIGNOFF support or a clearly stated ENGINEERING-level error estimate.
+
+Next step: run a mesh-convergence/GCI study with `scripts/gci.py` or provide a documented single-mesh error estimate
+before using the stress in a margin calculation.

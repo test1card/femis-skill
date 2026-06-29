@@ -1,0 +1,1 @@
+WARNING: density 7850 looks like 'SI-m' units, but you declared 'mm-t-s' (which expects steel ~ 7.85e-09). This is the classic silent unit corruptor -- dynamics/thermal will be wrong.

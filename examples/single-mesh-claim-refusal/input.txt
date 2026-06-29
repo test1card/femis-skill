@@ -1,0 +1,1 @@
+Use this single-mesh peak stress for the margin of safety.

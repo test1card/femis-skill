@@ -18,6 +18,7 @@ These commands verify:
 | Area | Evidence | Boundary |
 |---|---|---|
 | Calculator helpers | `tests/test_scripts.py` checks known values and error paths for GCI, y+, units, rainflow, MAC/COMAC, and hourglass energy gates. | This validates the helper scripts, not a solver model. |
+| Examples | `tests/test_examples.py` keeps runnable example output synchronized with real scripts and checks the single-mesh refusal template. | These examples are small fixtures, not full solver workflows. |
 | Skill metadata | `tests/test_skill_metadata.py` parses `SKILL.md` frontmatter as YAML and checks required discovery fields. | This validates packaging, not engineering behavior. |
 | Eval harness | `tests/test_eval_scoring.py` checks response scoring, including numeric ground-truth matching. | The scorer is a heuristic first-pass signal. |
 | Eval set structure | `scripts/run_skill_evals.py` validates referenced files/scripts, expected modes, behaviors, and numeric expectations. | Most evals are activation/behavior cases, not benchmark problems. |
@@ -48,12 +49,11 @@ Limitations:
 - `femis` has not been demonstrated as a full end-to-end executor integration with OASiS, PyMAPDL, Abaqus, COMSOL, or
   another solver driver in this repository.
 - It does not mesh, solve, parse `.rst`/`.op2`, or authorize engineering sign-off by itself.
-- It has one numeric GCI ground-truth eval case, but no full NAFEMS-style benchmark suite.
+- It has one numeric GCI ground-truth eval case and small runnable examples, but no full NAFEMS-style benchmark suite.
 - Agent portability beyond the tested hosts is text portability in principle, not a certified behavior guarantee.
 
 ## Next Evidence Milestones
 
-1. Add runnable examples under `examples/` for GCI, unit corruption, and single-mesh claim refusal.
-2. Add one minimal OASiS or other open-source executor demo that produces a result plus a traceable manifest.
-3. Expand provenance tags in the highest-risk automation references before broadening the reference set.
-4. Run live evals across at least one non-Claude model family and keep the results separate from CI claims.
+1. Add one minimal OASiS or other open-source executor demo that produces a result plus a traceable manifest.
+2. Expand provenance tags in the highest-risk automation references before broadening the reference set.
+3. Run live evals across at least one non-Claude model family and keep the results separate from CI claims.

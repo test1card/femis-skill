@@ -39,6 +39,8 @@ gotchas** that usually cost hours to rediscover.
 
 For the current verification boundary, see [`EVIDENCE.md`](EVIDENCE.md). It distinguishes tested calculators and
 metadata checks from sourced guidance, partial provenance tags, live A/B evidence, and unproven executor integration.
+For concrete behavior, see [`examples/`](examples/) for runnable GCI and units examples plus a single-mesh claim
+refusal template.
 
 Beyond textbook methodology it adds two things. First, a precise **agent-headless-vs-human contract**: what an
 automation agent may run unattended, and what a person still has to do in the GUI. Second, selected
@@ -133,12 +135,17 @@ scripts/
   run_skill_evals.py              # validate the activation/behavior eval set + score live agent responses, including numeric checks when present
   live_eval.py                    # optional live A/B harness (skill-on vs skill-off) — measures behavior change
   run_manifest_template.json      # per-solve traceability manifest (NAFEMS R0033)
+examples/
+  gci-known-values/               # runnable GCI example with checked numeric output
+  units-density-corruption/       # runnable density/unit-system warning example
+  single-mesh-claim-refusal/      # governance example for refusing a single-mesh peak claim
 evals/
   prompts.json                    # 23 adversarial activation/behavior eval cases (expected refs, mode, refuse/claim/escalate; one numeric GCI case)
   RESULTS.md                      # measured skill-on vs skill-off A/B results (live behavior-change evidence)
 skills_index.json                 # master machine-readable manifest (router, references, scripts, evals)
 references_index.json             # machine-readable index of references/ (file → title)
 tests/
+  test_examples.py                # keeps examples runnable and expected outputs synchronized
   test_scripts.py                 # 59 pytest checks across the 6 calculator scripts (known-good values + error paths)
   test_eval_scoring.py            # scorer regression tests, including numeric ground-truth matching
   test_provenance_coverage.py     # keeps provenance coverage table generated from references/*.md
@@ -151,8 +158,8 @@ Progressive disclosure: `SKILL.md` stays lean (a routing layer); the agent loads
 that topic is in play.
 
 The `scripts/` are covered by 59 calculator checks in `tests/test_scripts.py`, with additional checks for
-`SKILL.md` metadata, the eval scorer, and the provenance coverage table. CI runs the suite across Python 3.10–3.13,
-so the runnable calculators, skill entrypoint, eval harness, and evidence dashboard stay checked.
+examples, `SKILL.md` metadata, the eval scorer, and the provenance coverage table. CI runs the suite across Python
+3.10–3.13, so the runnable calculators, examples, skill entrypoint, eval harness, and evidence dashboard stay checked.
 
 Current evidence boundaries: pytest covers the calculators, metadata, and eval harness; it does **not** prove that
 every governance instruction is followed by every agent. `evals/prompts.json` is mostly an activation/behavior suite;

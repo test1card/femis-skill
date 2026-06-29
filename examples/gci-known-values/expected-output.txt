@@ -1,0 +1,9 @@
+refinement ratios     = r21 2.000, r32 2.000
+convergence ratio R   = 0.375  (0<R<1 converging)
+observed order p      = 1.415
+Richardson f_exact    = 304.66
+GCI_fine              = 0.221 %
+GCI_coarse            = 0.588 %
+asymptotic ratio      = 0.9971  (want ~1.0)
+QoI change (fine pair)= 0.295 %
+verdict               = PASS - converging (0<R<1), p>0, fine-grid GCI small, and in the asymptotic range.
