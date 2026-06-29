@@ -28,5 +28,5 @@ use_when: >-
   & validation; choosing elements / solvers / units; parsing .rst/.rth/.op2/.f06; or deciding
   what an agent may do headless versus what a human must decide.
 pair_with: >-
-  A solver driver / executor (PyMAPDL, PyMechanical, an Abaqus / OpenFOAM driver, Open FEM
-  Agent, or a CAE MCP). This skill is the brain; the executor is the hands.
+  A solver driver / executor (PyMAPDL, PyMechanical, an Abaqus / OpenFOAM driver, OASiS,
+  or a CAE MCP). This skill is the brain; the executor is the hands.

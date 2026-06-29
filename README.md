@@ -24,7 +24,7 @@ when_to_use:
   - headless / batch solving; parsing .rst / .rth / .op2 / .f06 results
   - deciding what an agent may run headless vs what a human must decide or sign off
 not_for: [driving solvers (pair with an executor), pure CAD modeling, closed-form hand calcs]
-pair_with: [PyMAPDL, PyMechanical, PyFluent, Abaqus, OpenFOAM, MSC/Simcenter Nastran, COMSOL, Open FEM Agent, CAE MCP]
+pair_with: [PyMAPDL, PyMechanical, PyFluent, Abaqus, OpenFOAM, MSC/Simcenter Nastran, COMSOL, OASiS, CAE MCP]
 physics: [structural, thermal, CFD, electromagnetics, vibro-acoustics/NVH, multibody, multiphysics, fracture, fatigue, composites, buckling, explicit-dynamics]
 manifests: [skills_index.json, references_index.json, agents/openai.yaml]
 license: Apache-2.0
@@ -164,7 +164,7 @@ A robust workflow looks like this:
    PyMechanical, or a commercial meshing API). `femis` governs mesh adequacy; it is not itself a mesher.
 
 4. **Solver execution** — pair with an executor that runs models, for example:
-   - Open FEM Agent
+   - [OASiS](https://github.com/Hereon-InstituteMS/OASiS)
    - PyMAPDL / PyMechanical / PyFluent
    - Abaqus Python or `noGUI`
    - OpenFOAM scripts or MCPs
@@ -189,12 +189,12 @@ A robust workflow looks like this:
 This separation is intentional: solver executors run models; `femis` decides whether the resulting numbers
 are only SMOKE/DEBUG artifacts, usable ENGINEERING results, or sign-off-supporting evidence.
 
-### Pairing With Open FEM Agent
+### Pairing With OASiS
 
-[Open FEM Agent](https://github.com/alhermann/open-fem-agent) is a natural companion for open-source FEM
-execution. It focuses on running and interrogating FEM backends; `femis` sits above that layer and governs
-claim quality, convergence evidence, provenance, and human-judgment boundaries. **Use Open FEM Agent to
-execute; use `femis` to decide what may be claimed** — one recommended executor, not a blessed default.
+[OASiS](https://github.com/Hereon-InstituteMS/OASiS) is a natural companion for open-source FEM execution.
+It is an MCP server for multiple FEM backends; `femis` sits above that layer and governs claim quality,
+convergence evidence, provenance, and human-judgment boundaries. **Use OASiS to execute; use `femis` to
+decide what may be claimed** — one recommended executor, not a blessed default.
 
 ## Install
 

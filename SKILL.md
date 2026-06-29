@@ -15,7 +15,7 @@ metadata:
 # FEM / CAE — structural · thermal · CFD · multiphysics
 
 > **This skill governs engineering claims — it does not drive solvers or sign off designs.** It pairs with a
-> solver driver / MCP (PyMAPDL, PyMechanical, an Abaqus / OpenFOAM driver, Open FEM Agent, a CAE MCP) that
+> solver driver / MCP (PyMAPDL, PyMechanical, an Abaqus / OpenFOAM driver, OASiS, a CAE MCP) that
 > *executes*; this skill decides **whether a result may be claimed, at what altitude, and when a human must
 > decide.**
 
@@ -75,7 +75,7 @@ Precisely who does what. Buckets: **AGENT-HEADLESS** (fully scriptable/batch, no
 ## Pairing & executor contract
 
 This skill is the **governance layer, not the executor.** Pair it with whatever drives the solver (PyMAPDL,
-PyMechanical, an Abaqus / OpenFOAM driver, Open FEM Agent, a CAE MCP): **the executor runs; this skill governs
+PyMechanical, an Abaqus / OpenFOAM driver, OASiS, a CAE MCP): **the executor runs; this skill governs
 the claim.** Trust no solver output without provenance — a result is creditable only when the executor returns:
 
 - **Run manifest** (`run_manifest.json`, template `scripts/run_manifest_template.json`) — the traceability spine (NAFEMS R0033).
