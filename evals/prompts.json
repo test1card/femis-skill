@@ -1,5 +1,5 @@
 {
-  "_about": "Adversarial activation/behavior eval set for the femis skill. Each case asserts what a correctly-behaving agent should do: which reference(s)/script(s) it should load (discovery), which execution mode applies, and whether the right move is to claim, diagnose, refuse, or escalate. Validate structure with `python scripts/run_skill_evals.py`; score live agent responses with the same module's score_response(). Behavior vocabulary: route | claim | diagnose | refuse | escalate. Mode vocabulary: SMOKE | DEBUG | ENGINEERING | SIGNOFF | n/a.",
+  "_about": "Adversarial activation/behavior eval set for the femis skill. Each case asserts what a correctly-behaving agent should do: which reference(s)/script(s) it should load (discovery), which execution mode applies, and whether the right move is to claim, diagnose, refuse, or escalate. Some cases also include numeric ground truth in expect_numbers. Validate structure with `python scripts/run_skill_evals.py`; score live agent responses with the same module's score_response(). Behavior vocabulary: route | claim | diagnose | refuse | escalate. Mode vocabulary: SMOKE | DEBUG | ENGINEERING | SIGNOFF | n/a.",
   "cases": [
     {
       "id": "mesh-independence",
@@ -9,6 +9,19 @@
       "expect_behavior": "route",
       "expect_mode": "SIGNOFF",
       "must_mention": ["GCI", "asymptotic"]
+    },
+    {
+      "id": "gci-known-values",
+      "prompt": "For a three-grid study with (h1,f1)=(1.0,305.20), (h2,f2)=(2.0,306.10), (h3,f3)=(4.0,308.50), compute the observed order and Richardson extrapolated value before stating whether the GCI result is usable.",
+      "expect_refs": [],
+      "expect_scripts": ["scripts/gci.py"],
+      "expect_behavior": "claim",
+      "expect_mode": "SIGNOFF",
+      "must_mention": ["GCI", "Richardson"],
+      "expect_numbers": [
+        { "name": "observed_order_p", "value": 1.415, "abs_tol": 0.01 },
+        { "name": "richardson_f_exact", "value": 304.66, "abs_tol": 0.10 }
+      ]
     },
     {
       "id": "abaqus-headless",

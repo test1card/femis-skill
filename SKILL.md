@@ -296,7 +296,7 @@ Ansys headless thermal-contact traps (CONTA174 KEYOPT(1)=0 thermally inert; `-di
 
 - `references/claim-templates.md` — per-mode (SMOKE/DEBUG/ENGINEERING/SIGNOFF) result-phrasing templates + reusable contract phrases (no-autonomous-sign-off, solve-vs-predict, calibration≠validation, singular-peak, solver-flag-certainty).
 - `references/escalation-examples.md` — worked refuse/escalate cases (contact type, single-mesh peak, calibration boundary, surrogate optimum, load basis, sign-off, singularity, solver flags, equilibrium, defeature, non-convergence).
-- `references/claims-validation.md` — external-source validation of the router's load-bearing claims (claim → authoritative standard/textbook/paper → verdict; 53 claims, deep-research traceability appendix).
+- `references/claims-validation.md` — sourcing map for the router's load-bearing claims (claim → authoritative standard/textbook/paper → verdict; 53 claims; not an audit certificate).
 - `references/meshing-convergence.md` — element tech, quality metrics, GCI, singularities, stress linearization.
 - `references/material-modeling.md` — constitutive models (elastic/plastic/hyperelastic/visco/creep/damage/composite), data sources, calibration.
 - `references/solver-numerics.md` — equation/eigen solvers, nonlinear, time integration, parallelism, diagnostics.

@@ -6,9 +6,9 @@ Two uses:
   1. CI / pre-commit (deterministic, no LLM):
          python scripts/run_skill_evals.py
      Validates evals/prompts.json structurally — every expect_refs / expect_scripts path
-     exists, modes and behaviors are in the allowed vocabulary, ids are unique. Exits
-     non-zero on any problem, so a renamed/deleted reference can never silently desync the
-     eval set from the tree.
+     exists, modes and behaviors are in the allowed vocabulary, ids are unique, and optional
+     expect_numbers entries are well-formed. Exits non-zero on any problem, so a renamed/deleted
+     reference can never silently desync the eval set from the tree.
 
   2. Live agent scoring (wire your own runner):
          from run_skill_evals import load_cases, score_response
@@ -16,7 +16,8 @@ Two uses:
              resp = my_agent(case["prompt"])          # however you drive the agent
              print(score_response(case, resp))
      score_response() grades whether the answer surfaced the expected references, landed on
-     the right execution mode, and exhibited the expected behavior (claim/refuse/escalate/...).
+     the right execution mode, exhibited the expected behavior (claim/refuse/escalate/...), and
+     included required numeric ground-truth values when a case declares expect_numbers.
 
 The structural validation is intentionally LLM-free so it runs in CI. The scoring heuristic is
 a cheap first-pass signal, not a substitute for human review of borderline cases.
@@ -24,6 +25,7 @@ a cheap first-pass signal, not a substitute for human review of borderline cases
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -69,6 +71,16 @@ def validate(path: Path = CASES_FILE):
         for rel in list(c.get("expect_refs", [])) + list(c.get("expect_scripts", [])):
             if not (ROOT / rel).exists():
                 errs.append(f"{tag}: expected path does not exist: {rel}")
+        for n in c.get("expect_numbers", []):
+            if not isinstance(n, dict):
+                errs.append(f"{tag}: expect_numbers entries must be objects")
+                continue
+            if "name" not in n or "value" not in n:
+                errs.append(f"{tag}: expect_numbers entries need 'name' and 'value'")
+            if "value" in n and not isinstance(n["value"], (int, float)):
+                errs.append(f"{tag}: expect_numbers value must be numeric")
+            if "abs_tol" in n and not isinstance(n["abs_tol"], (int, float)):
+                errs.append(f"{tag}: expect_numbers abs_tol must be numeric")
     return errs
 
 
@@ -76,6 +88,17 @@ def _ref_mentioned(rel: str, low: str) -> bool:
     name = Path(rel).name.lower()
     stem_words = Path(rel).stem.replace("-", " ").lower()
     return name in low or stem_words in low
+
+
+def _numbers_hit(expect_numbers: list[dict], response_text: str) -> list[str]:
+    values = [float(m.group(0)) for m in re.finditer(r"[-+]?(?:\d+\.\d*|\.\d+|\d+)(?:[eE][-+]?\d+)?", response_text)]
+    hit = []
+    for item in expect_numbers:
+        target = float(item["value"])
+        tol = float(item.get("abs_tol", 1e-6))
+        if any(abs(v - target) <= tol for v in values):
+            hit.append(item["name"])
+    return hit
 
 
 def score_response(case: dict, response_text: str) -> dict:
@@ -113,7 +136,10 @@ def score_response(case: dict, response_text: str) -> dict:
     scripts_ok = (not case.get("expect_scripts")) or bool(scripts_hit)
     need = case.get("must_mention", [])
     mentions_ok = (not need) or len(mentions_hit) == len(need)  # require ALL must_mention, not half
-    overall = refs_ok and scripts_ok and mode_ok and behavior_ok and mentions_ok
+    expect_numbers = case.get("expect_numbers", [])
+    numbers_hit = _numbers_hit(expect_numbers, response_text) if expect_numbers else []
+    numbers_ok = (not expect_numbers) or len(numbers_hit) == len(expect_numbers)
+    overall = refs_ok and scripts_ok and mode_ok and behavior_ok and mentions_ok and numbers_ok
     return {
         "id": case["id"],
         "overall": overall,
@@ -125,6 +151,8 @@ def score_response(case: dict, response_text: str) -> dict:
         "behavior_ok": behavior_ok,
         "mentions_ok": mentions_ok,
         "mentions_hit": mentions_hit,
+        "numbers_ok": numbers_ok,
+        "numbers_hit": numbers_hit,
     }
 
 
@@ -134,7 +162,8 @@ def main(argv) -> int:
     if "--list" in argv:
         for c in cases:
             print(f"{c['id']:<24} mode={c['expect_mode']:<11} behavior={c['expect_behavior']:<9} "
-                  f"refs={len(c.get('expect_refs', []))} scripts={len(c.get('expect_scripts', []))}")
+                  f"refs={len(c.get('expect_refs', []))} scripts={len(c.get('expect_scripts', []))} "
+                  f"numbers={len(c.get('expect_numbers', []))}")
     if errs:
         print("EVAL SET INVALID:")
         for e in errs:

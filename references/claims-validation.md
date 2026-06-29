@@ -1,22 +1,22 @@
-# Claims validation — external sources for the router's load-bearing claims
+# Claims sourcing map — external sources for the router's load-bearing claims
 
 `SKILL.md` (the router) compresses many quantitative thresholds, formulas, and named standards into terse
-gates. This appendix gives each load-bearing claim an **authoritative external source** and a **verdict**, so
-every router gate is traceable. It was produced by a multi-source deep-research pass (six parallel domain
-reviews) under an explicit *verify-or-flag* rule: no source was used unless confirmed to exist and support the
-point; anything unconfirmable would be marked UNVERIFIED.
+gates. This appendix maps each load-bearing claim to an external source and a short verdict so a reviewer can
+audit the router quickly. It is a **sourcing map**, not an independent certification artifact: the per-review
+logs are not shipped, and the authority remains the cited standard, textbook, paper, or vendor manual.
 
 **Verdict key:** VALIDATED (source backs the exact statement) · QUALIFIED (true, with an important caveat) ·
 CONTEXT-DEPENDENT (depends on element/solver/physics) · REFUTED · UNVERIFIED.
 
-**Result — 53 claims: 39 VALIDATED, 14 QUALIFIED, 0 REFUTED, 0 UNVERIFIED.** The QUALIFIED rows share a theme
-that matches the router's intent: the *physics* is sound, but several *numbers* are indicative rules-of-thumb,
-not universal constants — read them as guidance and verify in context. Three wording issues this pass exposed
-were corrected in place (see the end).
+**Map snapshot — 53 claims: 39 VALIDATED, 14 QUALIFIED, 0 REFUTED, 0 UNVERIFIED.** Do not read the zero
+UNVERIFIED count as proof that no claim could fail a deeper audit; it only means this shipped map includes rows
+where a supporting source was identified. The QUALIFIED rows share a theme that matches the router's intent: the
+*physics* is sound, but several *numbers* are indicative rules-of-thumb, not universal constants — read them as
+guidance and verify in context. Three wording issues this pass exposed were corrected in place (see the end).
 
-> Scope: this validates the **router's** compressed claims. The detailed `references/*.md` files carry their
-> own inline citations and `SOURCES` sections. Per-claim notes are condensed; consult the cited source for the
-> full statement and its conditions of validity.
+> Scope: this maps the **router's** compressed claims. The detailed `references/*.md` files carry their own
+> inline citations and `SOURCES` sections. Per-claim notes are condensed; consult the cited source for the full
+> statement and its conditions of validity.
 
 ## 1. Meshing, element technology & convergence
 
@@ -113,6 +113,6 @@ were corrected in place (see the end).
 *Methodology (disclosed, not independently reproducible from this repo): this table was assembled by parallel
 domain reviews instructed to prefer consensus standards > classic textbooks > peer-reviewed papers >
 authoritative vendor manuals, and to mark UNVERIFIED rather than cite an unconfirmed source; the cited
-DOI/standard numbers were checked to resolve to the stated work. The per-review logs are **not** shipped, so
-treat this as a **sourcing map to verify against**, not an audit certificate — the authority is the cited
-standard/paper itself, which you can confirm directly. Corrections welcome via PR.*
+DOI/standard numbers were checked to resolve to the stated work. The per-review logs are **not** shipped. Treat
+this as a **sourcing map to verify against**, not an audit certificate — the authority is the cited standard or
+paper itself, which you can confirm directly. Corrections welcome via PR.*

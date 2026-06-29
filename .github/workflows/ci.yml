@@ -179,7 +179,7 @@ jobs:
           if errs:
               print('HYGIENE / PACKAGING CHECK FAILED:'); [print(' -', e) for e in errs]; sys.exit(1)
           print(f'OK: manifest + internal links + source hygiene + placeholders + caches + TOCs; '
-                f'{len(scripts)} scripts documented, {n_tests} tests advertised')
+                f'{len(scripts)} scripts documented, {n_tests} calculator checks advertised')
           PY
 
       - name: Real plugin validate (authoritative when the Claude CLI is available)

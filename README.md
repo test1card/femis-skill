@@ -1,11 +1,11 @@
 # FEMis — an Agent Skill for FEM/CAE (structural · thermal · CFD · EM · multiphysics, across many solvers)
 
-> **FEMis** is an open-source, **agent-agnostic Agent Skill** for **finite-element analysis (FEA / FEM) and CAE
+> **FEMis** is an open-source, text-portable **Agent Skill** for **finite-element analysis (FEA / FEM) and CAE
 > governance**: mesh-independence (GCI), verification & validation (V&V), and a precise headless-vs-human automation
 > contract across **Ansys, Abaqus, MSC / Simcenter Nastran, OpenFOAM, COMSOL, LS-DYNA, Simcenter and Thermal Desktop**.
 > It is a **governance / decision layer, not a solver driver**. The entrypoint `SKILL.md` is plain instruction text and
-> the calculators are dependency-free Python, so it runs under **Claude Code, OpenAI Codex, opencode, Gemini CLI,
-> GLM / Z.ai, Kimi** and any agent that can load a system prompt — see [Using with other agents](#using-with-other-agents).
+> the calculators are dependency-free Python. It is tested primarily under **Claude Code** and **OpenAI Codex**; other
+> agents can use it by loading the same text and scripts — see [Using with other agents](#using-with-other-agents).
 
 **The name.** *FEMis* = **FEM** (finite-element method) + **Themis** (Greek Θέμις), the goddess of justice who holds
 the scales. Fitting for a skill that weighs the evidence before any engineering claim and refuses to let one cross
@@ -14,8 +14,9 @@ into **sign-off** without it.
 <!-- Machine-readable skill metadata for AI agents and search engines. Canonical manifest: skills_index.json -->
 ```yaml
 name: femis
-kind: Agent Skill — CAE/FEM governance & V&V layer (agent-agnostic)
-compatible_agents: [Claude Code, OpenAI Codex, opencode, Gemini CLI, GLM/Z.ai, Kimi, any LLM agent that loads instructions]
+kind: Agent Skill — CAE/FEM governance & V&V layer (text-portable)
+tested_agents: [Claude Code, OpenAI Codex]
+portable_to: [opencode, Gemini CLI, GLM/Z.ai, Kimi, any LLM agent that loads instructions]
 entrypoint: SKILL.md
 purpose: Turn an AI coding agent into a disciplined FEM/CAE analyst that governs engineering claims.
 when_to_use:
@@ -37,10 +38,10 @@ solve controls → convergence → mesh independence → V&V — plus the **head
 gotchas** that usually cost hours to rediscover.
 
 Beyond textbook methodology it adds two things. First, a precise **agent-headless-vs-human contract**: what an
-automation agent may run unattended, and what a person still has to do in the GUI. Second, confidence-tagged
-failure-mode recipes — for example, headless thermal-contact settings that pass the solve and return a wrong
-answer. Each recipe carries a provenance tag (`[AUTHOR-VERIFIED]`, `[DOCS-ONLY]`, or `[VERIFIED-web]`) so you can
-see how far it has actually been checked.
+automation agent may run unattended, and what a person still has to do in the GUI. Second, selected
+confidence-tagged failure-mode recipes — for example, headless thermal-contact settings that pass the solve and
+return a wrong answer. Provenance tagging is currently partial, strongest in execution-sensitive automation
+recipes; untagged reference guidance should be treated as source-backed notes, not author-executed evidence.
 
 **How it fits.** femis is the *methodology / decision layer*, not a solver driver. Pair it with an executor (PyMAPDL,
 PyMechanical, PyFluent, a driver skill, or an Ansys / Abaqus / OpenFOAM MCP server). femis governs that executor: it
@@ -81,7 +82,7 @@ references/
   # — governance / claim discipline (the moat) —
   claim-templates.md              # per-mode (SMOKE/DEBUG/ENGINEERING/SIGNOFF) result-phrasing templates + reusable contract phrases
   escalation-examples.md          # worked refuse/escalate cases (contact type, single-mesh peak, calibration, sign-off, singularity, ...)
-  claims-validation.md            # external-source validation of the router's load-bearing claims (claim -> standard/textbook -> verdict)
+  claims-validation.md            # sourcing map for the router's load-bearing claims (claim -> standard/textbook -> verdict)
   # — core workflow —
   meshing-convergence.md          # element tech, quality metrics, mesh independence (GCI/ZZ-SPR), p-/hp-refinement, DWR, singularities
   material-modeling.md            # constitutive models (plasticity/creep/hyperelastic/composite/damage), data sources, calibration
@@ -124,16 +125,17 @@ scripts/
   rainflow.py                     # ASTM E1049 rainflow cycle counting + Palmgren-Miner damage
   mac.py                          # Modal Assurance Criterion + COMAC (auto/cross-MAC, complex modes, mode pairing)
   hourglass_check.py              # explicit-dynamics energy-quality gate (hourglass % / energy balance / KE-IE)
-  run_skill_evals.py              # validate the activation/behavior eval set + score live agent responses
+  run_skill_evals.py              # validate the activation/behavior eval set + score live agent responses, including numeric checks when present
   live_eval.py                    # optional live A/B harness (skill-on vs skill-off) — measures behavior change
   run_manifest_template.json      # per-solve traceability manifest (NAFEMS R0033)
 evals/
-  prompts.json                    # 22 adversarial activation/behavior eval cases (expected refs, mode, refuse/claim/escalate)
+  prompts.json                    # 23 adversarial activation/behavior eval cases (expected refs, mode, refuse/claim/escalate; one numeric GCI case)
   RESULTS.md                      # measured skill-on vs skill-off A/B results (live behavior-change evidence)
 skills_index.json                 # master machine-readable manifest (router, references, scripts, evals)
 references_index.json             # machine-readable index of references/ (file → title)
 tests/
   test_scripts.py                 # 59 pytest checks across the 6 calculator scripts (known-good values + error paths)
+  test_eval_scoring.py            # scorer regression tests, including numeric ground-truth matching
   test_skill_metadata.py          # validates SKILL.md YAML frontmatter and required discovery metadata
 .github/workflows/
   ci.yml                          # CI: pytest + script self-tests + eval-set validation + source-hygiene gate (placeholders/caches/links/banned-domains/TOCs), Python 3.10-3.13
@@ -143,8 +145,13 @@ Progressive disclosure: `SKILL.md` stays lean (a routing layer); the agent loads
 that topic is in play.
 
 The `scripts/` are covered by 59 calculator checks in `tests/test_scripts.py`, with an additional packaging check for
-`SKILL.md` metadata. CI runs the suite across Python 3.10–3.13, so the runnable calculators and skill entrypoint stay
-correct, not just illustrative.
+`SKILL.md` metadata and scorer checks for `run_skill_evals.py`. CI runs the suite across Python 3.10–3.13, so the
+runnable calculators, skill entrypoint, and eval harness stay checked.
+
+Current evidence boundaries: pytest covers the calculators, metadata, and eval harness; it does **not** prove that
+every governance instruction is followed by every agent. `evals/prompts.json` is mostly an activation/behavior suite;
+it now includes one numeric GCI ground-truth case, but it is not a full engineering benchmark set. `evals/RESULTS.md`
+is a single-family live A/B snapshot, not a portability certificate.
 
 ## Recommended Agentic CAE Workflow
 
@@ -234,7 +241,8 @@ invocation needed.
 
 ## Using with other agents
 
-FEMis runs under any agent that can read instructions and (optionally) run Python:
+FEMis is text-portable to any agent that can read instructions and (optionally) run Python, but live behavior has
+only been exercised on a small set of hosts. Treat untested hosts as compatible in principle, not certified:
 
 - **`SKILL.md`** is the router / system prompt — plain Markdown. Prepend it to the system prompt or context of
   **OpenAI Codex, opencode, Gemini CLI, GLM / Z.ai, Kimi, Cursor, Continue,** etc.
@@ -262,10 +270,11 @@ calibration / inverse parameter ID & model updating; V&V/UQ; cryogenic / vacuum 
 
 ## Provenance & honesty
 
-The headless/automation recipes are tagged by confidence: `[AUTHOR-VERIFIED]` (run on a real model), `[DOCS-ONLY]`
+Some headless/automation recipes are tagged by confidence: `[AUTHOR-VERIFIED]` (run on a real model), `[DOCS-ONLY]`
 (from documentation, not executed here), `[VERIFIED-web]` / `[NEEDS-HW-TEST]` (vendor-documented; reproduce on
-your licensed install before relying on it for ENGINEERING/SIGNOFF). Treat any non-`[AUTHOR-VERIFIED]` recipe as a
-hypothesis and run a SMOKE reproducer first.
+your licensed install before relying on it for ENGINEERING/SIGNOFF). Coverage is not yet uniform across the
+reference set. Treat any non-`[AUTHOR-VERIFIED]` or untagged automation recipe as a hypothesis and run a SMOKE
+reproducer first.
 
 ## License
 

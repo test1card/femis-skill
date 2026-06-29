@@ -54,7 +54,9 @@ has the right instinct.
 - **Single run, small N, one model** — treat percentages from `live_eval.py` as directional, not certified.
 - **Heuristic scorer** — `score_response` is cheap signal; in particular the *expected-ref* dimension looks for
   the skill's own filenames in the answer, which a real agent legitimately rarely cites, so it **understates**
-  skill-on. Read the per-dimension booleans (mode/behavior/mentions), not just `overall`.
+  skill-on. Newer eval cases may include numeric ground truth (for example the GCI documented example), but this
+  live A/B remains mostly a governance/behavior check. Read the per-dimension booleans
+  (mode/behavior/mentions/numbers), not just `overall`.
 - **Strong baseline** — because skill-off is already competent, the uplift shows up as *discipline and
   traceability*, not as a correctness rescue. A weaker base model would likely show a larger judgment gap.
 - **Not a CI gate** — CI validates the eval set's *structure* (paths/schema/coverage) on every push; this live
