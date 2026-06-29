@@ -1,5 +1,9 @@
 # FEMis — an Agent Skill for FEM/CAE (structural · thermal · CFD · EM · multiphysics, across many solvers)
 
+<p align="center">
+  <img src="assets/brand/femis-readme-hero.png" alt="FEMis — FEM claim governance" width="100%">
+</p>
+
 > **FEMis** is an open-source, text-portable **Agent Skill** for **finite-element analysis (FEA / FEM) and CAE
 > governance**: mesh-independence (GCI), verification & validation (V&V), and a precise headless-vs-human automation
 > contract across **Ansys, Abaqus, MSC / Simcenter Nastran, OpenFOAM, COMSOL, LS-DYNA, Simcenter and Thermal Desktop**.
@@ -87,6 +91,8 @@ EVIDENCE.md              # what is verified, sourced, and not yet proven
 CHANGELOG.md             # release notes
 SECURITY.md              # private reporting guidance for unsafe automation/security issues
 CODE_OF_CONDUCT.md       # community conduct expectations
+README_ASSETS.md         # brand asset inventory and GitHub social-preview guidance
+assets/brand/            # README hero, logo, mark, and social-preview PNG assets
 references/
   # — governance / claim discipline (the moat) —
   claim-templates.md              # per-mode (SMOKE/DEBUG/ENGINEERING/SIGNOFF) result-phrasing templates + reusable contract phrases
